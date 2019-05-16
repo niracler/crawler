@@ -1,0 +1,44 @@
+version: "3.7"
+
+services:
+  redis:
+    image: redis
+    networks:
+      - spider
+    volumes:
+      - data:/data
+    command: --appendonly yes --requirepass "123456"
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      endpoint_mode: dnsrr
+      placement:
+        constraints:
+          - "node.hostname == redis"
+      labels:
+        traefik.docker.network: spider
+        traefik.port: 6379
+
+#  crawler:
+#    image: inner.registry:5000/spider
+#    networks:
+#      - spider
+#    deploy:
+#      mode: replicated
+#      replicas: 3
+#      restart_policy:
+#        condition: on-failure
+#      endpoint_mode: dnsrr
+#      placement:
+#        constraints:
+#          - "node.labels.spider-role == crawler"
+
+volumes:
+  data:
+
+networks:
+  spider:
+    external: true
+    name: spider
