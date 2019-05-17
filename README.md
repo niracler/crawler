@@ -1,6 +1,12 @@
 # crawler
 > 毕业设计的爬虫模块
 
+### 使用虚拟环境
+
+```bash
+source venv/bin/activate
+```
+
 ### 安装依赖包
 
 ```sh
@@ -9,7 +15,7 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-### centos7 关闭防火墙
+### CentOS7 关闭防火墙
 
 关闭
 ```bash
@@ -21,11 +27,7 @@ $systemctl stop firewalld.service
 $systemctl disable firewalld.service
 ```
 
-### 使用虚拟环境
-
-```bash
-source venv/bin/activate
-```
+## docker swarm 模式分布式部署
 
 ### 对 docker 节点打标签
 
@@ -55,6 +57,17 @@ EOF
 ```bash
 systemctl restart docker
 ```
+
+### 文章对象  
+
+|Key|Value|  
+|:---:|:---:|  
+|website|网站的名称|
+|url|文章链接|
+|title|文章内容|
+|content|文章内容|
+|category|文章类型|
+
 
 ## 参考文章
 
