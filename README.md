@@ -64,3 +64,7 @@ systemctl restart docker
 - [scrapy-redis](https://github.com/rmax/scrapy-redis)
 - [小白进阶之Scrapy第三篇（基于Scrapy-Redis的分布式以及cookies池）](https://cuiqingcai.com/4048.html)
 - [如何简单高效地部署和监控分布式爬虫项目](https://juejin.im/post/5bebc5fd6fb9a04a053f3a0e)
+- [news-please](https://github.com/fhamborg/news-please)
+- [who did what, when, where, why, and how?](https://github.com/fhamborg/Giveme5W1H)
+- [台湾新闻爬虫](https://github.com/TaiwanStat/Taiwan-news-crawlers)
+- [基于给定事件关键词，采集事件资讯，对事件进行挖掘和分析。](https://github.com/liuhuanyong/EventMonitor)

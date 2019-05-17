@@ -21,7 +21,7 @@ services:
         traefik.docker.network: spider
         traefik.port: 6379
 
-#  crawler:
+#  crawler2:
 #    image: inner.registry:5000/spider
 #    networks:
 #      - spider
@@ -33,7 +33,7 @@ services:
 #      endpoint_mode: dnsrr
 #      placement:
 #        constraints:
-#          - "node.labels.spider-role == crawler"
+#          - "node.labels.spider-role == crawler2"
 
 volumes:
   data:
