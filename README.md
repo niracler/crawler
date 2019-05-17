@@ -27,12 +27,42 @@ $systemctl stop firewalld.service
 $systemctl disable firewalld.service
 ```
 
+### 连接 redis
+
+```bash
+$redis-cli -h 172.28.7.40 -p 6379 -a 123456
+```
+
 ## docker swarm 模式分布式部署
+
+### 初始化 swarm 集群
+
+```bash
+$docker swarm init
+```
 
 ### 对 docker 节点打标签
 
 ```bash
 $docker node update --label-add spider-role=crawler node1
+```
+
+### 构建网络
+
+```bash
+$make network
+```
+
+### 构建 nginx 反向代理
+
+```bash
+$make crawler-nginx
+```
+
+### 启动
+
+```bash
+$make crawler
 ```
 
 ### 添加hosts
@@ -58,6 +88,8 @@ EOF
 systemctl restart docker
 ```
 
+## 爬虫设计
+
 ### 文章对象  
 
 |Key|Value|  
@@ -67,7 +99,14 @@ systemctl restart docker
 |title|文章内容|
 |content|文章内容|
 |category|文章类型|
+|publish_time|发布时间|
 
+## 待爬取网站
+
+[新浪](https://www.sina.com.cn/)
+[凤凰网](https://www.ifeng.com/)
+[搜狐](http://news.sohu.com/)
+[readhub](https://readhub.cn/topics)
 
 ## 参考文章
 
