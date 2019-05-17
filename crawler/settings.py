@@ -11,8 +11,14 @@
 
 BOT_NAME = 'crawler2'
 
-SPIDER_MODULES = ['crawler2.spiders']
-NEWSPIDER_MODULE = 'crawler2.spiders'
+SPIDER_MODULES = ['crawler.spiders']
+NEWSPIDER_MODULE = 'crawler.spiders'
+
+# 关于 scrapy_redis 的配置
+DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
+SCHEDULER = "scrapy_redis.scheduler.Scheduler"
+SCHEDULER_PERSIST = True
+REDIS_URL = 'redis://root:123456@172.28.7.26:6379'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = 'crawler2 (+http://www.yourdomain.com)'
@@ -63,9 +69,15 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
-# ITEM_PIPELINES = {
-#    'crawler2.pipelines.CrawlerPipeline': 300,
-# }
+ITEM_PIPELINES = {
+    # 'crawler2.pipelines.CrawlerPipeline': 300,
+    # 'scrapy_redis.pipelines.RedisPipeline': 400,
+    'crawler.pipelines.MongoDBPipeline': 300,
+}
+
+MONGODB_SERVER = 'mongodb://root:123456@172.28.7.26:27017/'
+MONGODB_DB = "spider"
+MONGODB_COLLECTION = "articles"
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
