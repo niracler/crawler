@@ -1,16 +1,38 @@
 # -*- coding: utf-8 -*-
+import traceback
 import scrapy
+from crawler.spiders.weiboSpider import WeiboSpider
+from crawler.items import WeiboUserItem
 
-
-class WeiboSpider(scrapy.Spider):
-    name = 'weiboSpider'
+class Weibo(scrapy.Spider):
+    name = 'weibo2'
     allowed_domains = ['www.liuli.in']
     start_urls = ['https://www.liuli.in/wp']
 
     # 1736472255
 
     def parse(self, response):
-        pass
+        try:
+            # 使用实例,输入一个用户id，所有信息都会存储在wb实例中
+            user_id = 1669879400  # 可以改成任意合法的用户id（爬虫的微博id除外）
+            filter = 1  # 值为0表示爬取全部微博（原创微博+转发微博），值为1表示只爬取原创微博
+            wb = WeiboSpider(user_id, filter)  # 调用Weibo类，创建微博实例wb
+            wb.start()  # 爬取微博信息
+            item = WeiboUserItem()
+            item['user_id'] = wb.user_id  # 用户id，即需要我们输入的数字，如昵称为“Dear-迪丽热巴”的id为1669879400
+            item['nickname'] = wb.nickname  # 用户昵称，如“Dear-迪丽热巴”
+            item['weibo_num'] = wb.weibo_num  # 用户全部微博数
+            item['got_num'] = wb.got_num  # 爬取到的微博数
+            item['following'] = wb.following  # 用户关注数
+            item['followers'] = wb.followers # 用户粉丝数
+            wb.weibo.remove({})
+            item['weibo'] = wb.weibo
+            yield item
+        except Exception as e:
+            print("Error: ", e)
+            traceback.print_exc()
+
+
 
     # articles = response.css('#content article')
     # for article in articles:

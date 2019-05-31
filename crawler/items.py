@@ -36,17 +36,18 @@ class ShensheArticleItem(scrapy.Item):
     img_url = scrapy.Field()
 
 
-class Weibo(scrapy.Item):
+class WeiboUserItem(scrapy.Item):
     user_id = scrapy.Field()  # 用户id，即需要我们输入的数字，如昵称为“Dear-迪丽热巴”的id为1669879400
     nickname = scrapy.Field()  # 用户昵称，如“Dear-迪丽热巴”
     weibo_num = scrapy.Field()  # 用户全部微博数
     got_num = scrapy.Field()  # 爬取到的微博数
     following = scrapy.Field()  # 用户关注数
     followers = scrapy.Field()  # 用户粉丝数
-    weibo_content = scrapy.Field()  # 微博内容
-    weibo_place = scrapy.Field()  # 微博位置
-    publish_time = scrapy.Field()  # 微博发布时间
-    up_num = scrapy.Field()  # 微博对应的点赞数
-    retweet_num = scrapy.Field()  # 微博对应的转发数
-    comment_num = scrapy.Field()  # 微博对应的评论数
-    publish_tool = scrapy.Field()  # 微博发布工具
+    weibo = scrapy.Field()
+    # weibo_content = scrapy.Field()  # 微博内容
+    # weibo_place = scrapy.Field()  # 微博位置
+    # publish_time = scrapy.Field()  # 微博发布时间
+    # up_num = scrapy.Field()  # 微博对应的点赞数
+    # retweet_num = scrapy.Field()  # 微博对应的转发数
+    # comment_num = scrapy.Field()  # 微博对应的评论数
+    # publish_tool = scrapy.Field()  # 微博发布工具
