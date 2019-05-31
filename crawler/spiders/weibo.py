@@ -25,7 +25,6 @@ class Weibo(scrapy.Spider):
             item['got_num'] = wb.got_num  # 爬取到的微博数
             item['following'] = wb.following  # 用户关注数
             item['followers'] = wb.followers # 用户粉丝数
-            wb.weibo.remove({})
             item['weibo'] = wb.weibo
             yield item
         except Exception as e:

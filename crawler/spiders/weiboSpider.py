@@ -300,8 +300,8 @@ class WeiboSpider:
             if is_empty:
                 for i in range(0, len(info) - 2):
                     is_retweet = info[i].xpath("div/span[@class='cmt']")
-                    self.weibo.append({})
                     if (not self.filter) or (not is_retweet):
+                        self.weibo.append({})
                         self.get_weibo_content(info[i])  # 微博内容
                         self.get_weibo_place(info[i])  # 微博位置
                         self.get_publish_time(info[i])  # 微博发布时间
