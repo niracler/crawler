@@ -122,3 +122,4 @@ systemctl restart docker
 - [who did what, when, where, why, and how?](https://github.com/fhamborg/Giveme5W1H)
 - [台湾新闻爬虫](https://github.com/TaiwanStat/Taiwan-news-crawlers)
 - [基于给定事件关键词，采集事件资讯，对事件进行挖掘和分析。](https://github.com/liuhuanyong/EventMonitor)
+- [An array field in scrapy.Item](https://stackoverflow.com/questions/29227119/an-array-field-in-scrapy-item)
