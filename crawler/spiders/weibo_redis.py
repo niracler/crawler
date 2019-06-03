@@ -1,9 +1,7 @@
 # -*- coding: utf-8 -*-
 
 from random import random
-
 import json
-
 import random
 import re
 import sys
@@ -14,14 +12,16 @@ from time import sleep
 import requests
 import scrapy
 from lxml import etree
+from scrapy_redis.spiders import RedisCrawlSpider
 from tqdm import tqdm
 from crawler.items import WeiboUserItem
 
 
-class Weibo(scrapy.Spider):
-    name = 'weibo'
+class Weibo(RedisCrawlSpider):
+    name = 'weibo_redis'
     allowed_domains = ['weibo.cn']
-    start_urls = ['https://weibo.cn/u/5829543885']
+    redis_key = 'weibo:start_urls'
+    # start_urls = ['https://weibo.cn/u/5829543885']
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
@@ -41,17 +41,16 @@ class Weibo(scrapy.Spider):
             value = item.split('=')[1]
             itemDict[key] = value
         self.cookie = itemDict
-        self.cookie_str = itemDict
+
         print(self.cookie)
 
-    def start_requests(self):
-        start_url = 'https://weibo.cn/u/5829543885'
+    def make_requests_from_url(self, url):
         cookie = self.cookie
         headers = {
             'Connection': 'keep - alive',
             'User-Agent': self.cookie_json["user-agent"]
         }
-        yield scrapy.Request(url=start_url, headers=headers, cookies=cookie)
+        return scrapy.Request(url=url, headers=headers, cookies=cookie)
 
     def parse(self, response):
         item = WeiboUserItem()
