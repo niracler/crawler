@@ -123,3 +123,4 @@ systemctl restart docker
 - [台湾新闻爬虫](https://github.com/TaiwanStat/Taiwan-news-crawlers)
 - [基于给定事件关键词，采集事件资讯，对事件进行挖掘和分析。](https://github.com/liuhuanyong/EventMonitor)
 - [An array field in scrapy.Item](https://stackoverflow.com/questions/29227119/an-array-field-in-scrapy-item)
+- [Scrapy 使用写死的cookie 来爬需要登录的页面](https://blog.csdn.net/fox64194167/article/details/79775301)

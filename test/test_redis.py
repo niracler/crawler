@@ -1,7 +1,7 @@
 import time
 import redis
 
-client = redis.Redis(host='172.28.7.26', port='6379', password='123456')
+client = redis.Redis(host='10.42.30.245', port='6379', password='123456')
 
 for i in range(1, 285):
     url = 'https://www.liuli.in/wp/page/' + str(i)
