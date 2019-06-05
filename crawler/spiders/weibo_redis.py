@@ -20,7 +20,7 @@ from crawler.items import WeiboUserItem
 class Weibo(RedisCrawlSpider):
     name = 'weibo_redis'
     allowed_domains = ['weibo.cn']
-    redis_key = 'weibo:start_urls'
+    redis_key = 'weibo_redis:start_urls'
     # start_urls = ['https://weibo.cn/u/5829543885']
 
     def __init__(self, **kwargs):
@@ -120,7 +120,7 @@ class Weibo(RedisCrawlSpider):
                         self.get_publish_tool(info[i])  # 微博发布工具
                         self.get_weibo_footer(info[i])  # 微博点赞数、转发数、评论数
                         self.got_num += 1
-                        print("-" * 100)
+                        # print("-" * 100)
         except Exception as e:
             print("Error: ", e)
             traceback.print_exc()
@@ -225,7 +225,7 @@ class Weibo(RedisCrawlSpider):
             else:
                 weibo_content = self.get_original_weibo(info)
             self.weibo[-1]['weibo_content'] = weibo_content
-            print(weibo_content)
+            # print(weibo_content)
         except Exception as e:
             print("Error: ", e)
             traceback.print_exc()
@@ -250,7 +250,7 @@ class Weibo(RedisCrawlSpider):
                         weibo_place = self.deal_garbled(weibo_place)
                         break
             self.weibo[-1]['weibo_place'] = weibo_place
-            print(u"微博位置: " + weibo_place)
+            # print(u"微博位置: " + weibo_place)
         except Exception as e:
             print("Error: ", e)
             traceback.print_exc()
@@ -282,7 +282,7 @@ class Weibo(RedisCrawlSpider):
             else:
                 publish_time = publish_time[:16]
             self.weibo[-1]['publish_time'] = publish_time
-            print(u"微博发布时间: " + publish_time)
+            # print(u"微博发布时间: " + publish_time)
         except Exception as e:
             print("Error: ", e)
             traceback.print_exc()
@@ -297,7 +297,7 @@ class Weibo(RedisCrawlSpider):
             else:
                 publish_tool = u"无"
             self.weibo[-1]['publish_tool'] = publish_tool
-            print(u"微博发布工具: " + publish_tool)
+            # print(u"微博发布工具: " + publish_tool)
         except Exception as e:
             print("Error: ", e)
             traceback.print_exc()
@@ -313,15 +313,15 @@ class Weibo(RedisCrawlSpider):
 
             up_num = int(weibo_footer[0])
             self.weibo[-1]['up_num'] = up_num
-            print(u"点赞数: " + str(up_num))
+            # print(u"点赞数: " + str(up_num))
 
             retweet_num = int(weibo_footer[1])
             self.weibo[-1]['retweet_num'] = retweet_num
-            print(u"转发数: " + str(retweet_num))
+            # print(u"转发数: " + str(retweet_num))
 
             comment_num = int(weibo_footer[2])
             self.weibo[-1]['comment_num'] = comment_num
-            print(u"评论数: " + str(comment_num))
+            # print(u"评论数: " + str(comment_num))
         except Exception as e:
             print("Error: ", e)
             traceback.print_exc()
