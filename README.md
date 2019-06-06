@@ -103,6 +103,41 @@ systemctl restart docker
 |category|文章类型|
 |publish_time|发布时间|
 
+### 微博爬虫设计
+
+1. 先爬取个人信息
+2. 将这个人所关注的人也加到待爬序列中
+
+微博用户(放在redis的List里面)
+
+|Key|Value|
+|:---:|:---:|
+|user_id|用户ID|
+|nickname|用户昵称；|
+|weibo_num|微博数；|
+|following|关注数；|
+|followers|粉丝数；|
+
+关系网络(放在redis的List里面)
+
+|Key|Value|
+|:---:|:---:|
+|user_id|用户ID|
+|follower_id|他关注的用户ID|
+
+微博内容(放在redis的List里面)
+
+|Key|Value|
+|:---:|:---:|
+|user_id|用户ID|
+|weibo_content|存储用户的所有微博|
+|weibo_place|存储微博的发布位置|
+|publish_time| 存储微博的发布时间|
+|up_num|存储微博获得的点赞数|
+|retweet_num|存储微博获得的转发数|
+|comment_num|存储微博获得的评论数|
+|publish_tool|存储微博的发布工具|
+
 ## 待爬取网站
 
 [新浪](https://www.sina.com.cn/)
