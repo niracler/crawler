@@ -123,7 +123,7 @@ systemctl restart docker
 |Key|Value|
 |:---:|:---:|
 |user_id|用户ID|
-|follower_id|他关注的用户ID|
+|follow_id|他关注的用户ID|
 
 微博内容(放在redis的List里面)
 
