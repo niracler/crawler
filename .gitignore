@@ -108,3 +108,5 @@ venv.bak/
 *.ipr
 *.iml
 *.iws
+
+cookie.json

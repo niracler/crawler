@@ -1,5 +1,7 @@
 # crawler
-> 毕业设计的爬虫模块
+> 毕业设计的爬虫模块, 琉璃神社爬虫， 新浪微博爬虫
+
+23-
 
 ### 使用虚拟环境
 
@@ -101,6 +103,41 @@ systemctl restart docker
 |category|文章类型|
 |publish_time|发布时间|
 
+### 微博爬虫设计
+
+1. 先爬取个人信息
+2. 将这个人所关注的人也加到待爬序列中
+
+微博用户(放在redis的List里面)
+
+|Key|Value|
+|:---:|:---:|
+|user_id|用户ID|
+|nickname|用户昵称；|
+|weibo_num|微博数；|
+|following|关注数；|
+|followers|粉丝数；|
+
+关系网络(放在redis的List里面)
+
+|Key|Value|
+|:---:|:---:|
+|user_id|用户ID|
+|follow_id|他关注的用户ID|
+
+微博内容(放在redis的List里面)
+
+|Key|Value|
+|:---:|:---:|
+|user_id|用户ID|
+|weibo_content|存储用户的所有微博|
+|weibo_place|存储微博的发布位置|
+|publish_time| 存储微博的发布时间|
+|up_num|存储微博获得的点赞数|
+|retweet_num|存储微博获得的转发数|
+|comment_num|存储微博获得的评论数|
+|publish_tool|存储微博的发布工具|
+
 ## 待爬取网站
 
 [新浪](https://www.sina.com.cn/)
@@ -120,3 +157,6 @@ systemctl restart docker
 - [who did what, when, where, why, and how?](https://github.com/fhamborg/Giveme5W1H)
 - [台湾新闻爬虫](https://github.com/TaiwanStat/Taiwan-news-crawlers)
 - [基于给定事件关键词，采集事件资讯，对事件进行挖掘和分析。](https://github.com/liuhuanyong/EventMonitor)
+- [An array field in scrapy.Item](https://stackoverflow.com/questions/29227119/an-array-field-in-scrapy-item)
+- [Scrapy 使用写死的cookie 来爬需要登录的页面](https://blog.csdn.net/fox64194167/article/details/79775301)
+- [新浪微博爬虫，用python爬取新浪微博数据](https://github.com/dataabc/weiboSpider)
