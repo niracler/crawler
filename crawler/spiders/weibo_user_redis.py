@@ -32,7 +32,7 @@ class WeiboUser(RedisCrawlSpider):
         except:
             self.cookie = {}
 
-        items = self.cookie_json['Cookie'].split(';')
+        items = self.cookie_json['Cookie2'].split(';')
         for item in items:
             key = item.split('=')[0].replace(' ', '')
             value = item.split('=')[1]
@@ -79,6 +79,8 @@ class WeiboUser(RedisCrawlSpider):
         sleep(random.randint(6, 10))
 
         yield user_item
+
+    # def parse_(self, response):
 
 
     def get_page_num(self, response):

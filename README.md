@@ -1,5 +1,5 @@
 # crawler
-> 毕业设计的爬虫模块
+> 毕业设计的爬虫模块, 琉璃神社爬虫， 新浪微博爬虫
 
 23-
 
@@ -159,3 +159,4 @@ systemctl restart docker
 - [基于给定事件关键词，采集事件资讯，对事件进行挖掘和分析。](https://github.com/liuhuanyong/EventMonitor)
 - [An array field in scrapy.Item](https://stackoverflow.com/questions/29227119/an-array-field-in-scrapy-item)
 - [Scrapy 使用写死的cookie 来爬需要登录的页面](https://blog.csdn.net/fox64194167/article/details/79775301)
+- [新浪微博爬虫，用python爬取新浪微博数据](https://github.com/dataabc/weiboSpider)

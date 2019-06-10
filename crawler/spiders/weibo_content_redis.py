@@ -36,7 +36,7 @@ class WeiboContent(RedisCrawlSpider):
         except:
             self.cookie = {}
 
-        items = self.cookie_json['Cookie'].split(';')
+        items = self.cookie_json['Cookie1'].split(';')
         for item in items:
             key = item.split('=')[0].replace(' ', '')
             value = item.split('=')[1]
@@ -52,7 +52,7 @@ class WeiboContent(RedisCrawlSpider):
 
     def parse(self, response):
         """获取第page页的全部微博"""
-        sleep(random.randint(1, 5))
+        sleep(random.randint(5, 10))
         try:
             user_id = int(response.url.split('/')[-1].split('?')[0])
             selector = self.deal_html(response.url)
@@ -76,7 +76,7 @@ class WeiboContent(RedisCrawlSpider):
         except Exception as e:
             print("Error: ", e)
             traceback.print_exc()
-        sleep(random.randint(1, 5))
+        sleep(random.randint(5, 10))
 
     def deal_html(self, url):
         """处理html"""
