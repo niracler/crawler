@@ -103,7 +103,9 @@ systemctl restart docker
 |category|文章类型|
 |publish_time|发布时间|
 
-### 微博爬虫设计
+### 新浪微博爬虫设计
+
+> 像是新浪微博这样的，是账号越多越好
 
 1. 先爬取个人信息
 2. 将这个人所关注的人也加到待爬序列中
@@ -160,3 +162,4 @@ systemctl restart docker
 - [An array field in scrapy.Item](https://stackoverflow.com/questions/29227119/an-array-field-in-scrapy-item)
 - [Scrapy 使用写死的cookie 来爬需要登录的页面](https://blog.csdn.net/fox64194167/article/details/79775301)
 - [新浪微博爬虫，用python爬取新浪微博数据](https://github.com/dataabc/weiboSpider)
+- [scrapy爬取新浪微博+cookie池](https://blog.csdn.net/m0_37438418/article/details/80819847)
