@@ -110,3 +110,5 @@ venv.bak/
 *.iws
 
 cookie.json
+
+*.csv

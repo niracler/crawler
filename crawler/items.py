@@ -45,6 +45,7 @@ class WeiboUserItem(scrapy.Item):
     weibo_num = scrapy.Field()  # 用户全部微博数
     got_num = scrapy.Field()  # 爬取到的微博数
     following = scrapy.Field()  # 用户关注数
+
     followers = scrapy.Field()  # 用户粉丝数
     weibo = scrapy.Field()
 

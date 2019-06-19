@@ -18,7 +18,7 @@ NEWSPIDER_MODULE = 'crawler.spiders'
 DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
 SCHEDULER = "scrapy_redis.scheduler.Scheduler"
 SCHEDULER_PERSIST = True
-REDIS_URL = 'redis://root:123456@10.42.31.236:6379'
+REDIS_URL = 'redis://root:123456@10.42.41.214:6379'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.110 Safari/537.36'

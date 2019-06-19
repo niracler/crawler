@@ -25,7 +25,7 @@ class WeiboFollow(RedisCrawlSpider):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.client = redis.Redis(host='10.42.31.236', port='6379', password='123456')  # 连接redis
+        self.client = redis.Redis(host='10.42.41.214', port='6379', password='123456')  # 连接redis
         self.filter = 1
         self.got_num = 0  # 爬取到的微博数
         self.weibo = []
