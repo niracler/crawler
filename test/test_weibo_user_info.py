@@ -1,5 +1,6 @@
 import redis
 import random
+import json
 import requests
 from lxml import etree
 from time import sleep
@@ -22,11 +23,11 @@ while True:
     other_info = selector.xpath('/html/body/div[9]/text()')
 
     user_info = {
-        'id': str(url).split('/')[-2],
-        'base_info': base_info,
-        'other_info': other_info
+        "id": str(url).split('/')[-2],
+        "base_info": base_info,
+        "other_info": other_info
     }
-    user_info = str(user_info)
+    user_info = json.dumps(user_info)
     print(user_info)
 
     client.lpush("weibo_info_redis:items", user_info)
