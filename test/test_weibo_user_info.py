@@ -1,3 +1,5 @@
+import traceback
+
 import redis
 import random
 import json
@@ -12,24 +14,29 @@ cookie = {
 }  # 将your cookie替换成自己的cookie
 
 while True:
-    url = client.lpop('weibo_info_redis:start_urls')
-    if not url:
-        print("结束")
-        break
-    html = requests.get(url, cookies=cookie).content
-    selector = etree.HTML(html)
+    try:
+        url = client.lpop('weibo_info_redis:start_urls')
+        if not url:
+            print("结束")
+            break
+        html = requests.get(url, cookies=cookie).content
+        selector = etree.HTML(html)
 
-    base_info = selector.xpath('/html/body/div[7]/text()')
-    other_info = selector.xpath('/html/body/div[9]/text()')
+        base_info = selector.xpath('/html/body/div[7]/text()')
+        other_info = selector.xpath('/html/body/div[9]/text()')
 
-    user_info = {
-        "id": str(url).split('/')[-2],
-        "base_info": base_info,
-        "other_info": other_info
-    }
-    user_info = json.dumps(user_info)
-    print(user_info)
+        user_info = {
+            "id": str(url).split('/')[-2],
+            "base_info": base_info,
+            "other_info": other_info
+        }
+        user_info = json.dumps(user_info)
+        print(user_info)
 
-    client.lpush("weibo_info_redis:items", user_info)
+        client.lpush("weibo_info_redis:items", user_info)
+
+    except Exception as e:
+        print("Error: ", e)
+        traceback.print_exc()
 
     sleep(random.randint(6, 10))
