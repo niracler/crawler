@@ -15,8 +15,8 @@ spider-nginx:
 spider:
 	docker stack deploy -c docker-compose.yml spider
 
-build:
-	docker build -t "inner.registry:5000/spider" .
+build-scrapyd:
+	docker build -t "plrom.niracler.com:5009/scrapyd" .
 
-push:
-	docker push "inner.registry:5000/spider"
+push-scrapyd:
+	docker push "plrom.niracler.com:5009/scrapyd"
