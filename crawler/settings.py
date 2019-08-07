@@ -70,12 +70,12 @@ COOKIES_ENABLED = True
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'crawler.pipelines.CrawlerPipeline': 300,
+    # 'crawler.pipelines.CrawlerPipeline': 300,
     # 'scrapy_redis.pipelines.RedisPipeline': 400,
-    # 'crawler.pipelines.MongoDBPipeline': 300,
+    'crawler.pipelines.MongoDBPipeline': 300,
 }
 
-MONGODB_SERVER = 'mongodb://root:123456@172.28.7.26:27017/'
+MONGODB_SERVER = 'mongodb://root:123456@centos-l5-vm-01.niracler.com:27017/'
 MONGODB_DB = "spider"
 MONGODB_COLLECTION = "articles"
 
