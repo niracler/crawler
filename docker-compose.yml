@@ -131,6 +131,12 @@ volumes:
   redis_data:
   mongo_data:
   projects:
+     driver: local
+     driver_opts:
+       type: none
+       o: bind
+       device: /projects
+
 
 networks:
   spider:
