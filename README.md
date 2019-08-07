@@ -167,11 +167,24 @@ http://plrom.niracler.com:5000/1/jobs/
 
 ## 假如使用自制镜像，需要以下操作
 
-### 添加hosts
+```bash
+docker pull registry:latest
+```
+
+等待下载完成之后， 运行这个镜像：
 
 ```bash
-$echo "172.28.7.40 inner.registry" >> /etc/hosts
+docker run \
+  --detach \
+  --name registry \
+  --hostname registry \
+  --volume /home/niracler/registry:/var/lib/registry/docker/registry \
+  --publish 5009:5000 \
+  --restart unless-stopped \
+  registry:latest
 ```
+
+每一台电脑上都要运行这命令
 
 ```bash
 tee /etc/docker/daemon.json <<-'EOF'
@@ -186,7 +199,10 @@ tee /etc/docker/daemon.json <<-'EOF'
 EOF
 ```
 
+重启docker
+
 ```bash
+systemctl daemon-reload
 systemctl restart docker
 ```
 
