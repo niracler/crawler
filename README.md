@@ -1,7 +1,22 @@
 # crawler
 > 毕业设计的爬虫模块, 琉璃神社爬虫， 新浪微博爬虫
 
-23-
+## 如何团队项目保持同步(重要)
+
+- 第一次时需要,与团队仓库建立联系
+
+```
+git remote add upstream https://github.com/ghost-of-fantasy/crawler.git
+```
+
+- 工作前后要运行这几条命令,和团队项目保持同步
+
+```
+git fetch upstream
+git merge upstream/master
+```
+
+## 其他
 
 ### 使用虚拟环境
 
@@ -163,3 +178,5 @@ systemctl restart docker
 - [Scrapy 使用写死的cookie 来爬需要登录的页面](https://blog.csdn.net/fox64194167/article/details/79775301)
 - [新浪微博爬虫，用python爬取新浪微博数据](https://github.com/dataabc/weiboSpider)
 - [scrapy爬取新浪微博+cookie池](https://blog.csdn.net/m0_37438418/article/details/80819847)
+- [Scrapyd手册](https://scrapyd.readthedocs.io/en/stable/install.html)
+- [Scrapyd configuration when installing from pip or Github](https://github.com/scrapy/scrapyd/issues/104)
