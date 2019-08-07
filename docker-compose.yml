@@ -44,7 +44,7 @@ services:
       traefik.port: 27017
 
   scrapyd:
-    image: vimagick/scrapyd:py3
+    image: plrom.niracler.com:5009/scrapyd
     networks:
       - spider
 #    volumes:
@@ -58,6 +58,7 @@ services:
       placement:
         constraints:
           - "node.hostname == spider-1"
+#    command: "sh logparser && scrapyd"
     labels:
       traefik.docker.network: spider
       traefik.port: 6800
