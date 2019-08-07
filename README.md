@@ -206,6 +206,12 @@ systemctl daemon-reload
 systemctl restart docker
 ```
 
+### 打包命令
+```bash
+$ cd ..
+$ tar -czvf crawler.tar.gz  --exclude=crawler/venv crawler
+```
+
 ## 参考文章
 
 - [使用 Docker Swarm 搭建分布式爬虫集群](https://www.kingname.info/2018/10/13/use-docker-swarm/)

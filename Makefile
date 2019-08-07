@@ -6,7 +6,7 @@ network:
 spider-nginx:
 	docker service create --name spider_nginx \
 --constraint node.role==manager \
--p 6379:6379 -p 27017:27017 -p 6800:6800 \
+-p 6379:6379 -p 27017:27017 -p 5000:5000 -p 6801-6804:6801-6804 \
 --mount type=bind,source=$(basepath)/nginx/nginx-base.conf,target=/etc/nginx/nginx.conf \
 --mount type=bind,source=$(basepath)/nginx/nginx-stream-proxy.conf,target=/etc/nginx/stream.conf.d/nginx-stream-proxy.conf \
 --mount type=bind,source=$(basepath)/nginx/nginx-http-proxy.conf,target=/etc/nginx/conf.d/default.conf \
@@ -16,7 +16,15 @@ spider:
 	docker stack deploy -c docker-compose.yml spider
 
 build-scrapyd:
-	docker build -t "plrom.niracler.com:5009/scrapyd" .
+	docker build -t "plrom.niracler.com:5009/scrapyd" -f scrapyd/Dockerfile .
 
 push-scrapyd:
 	docker push "plrom.niracler.com:5009/scrapyd"
+
+build-webui:
+	docker build -t "plrom.niracler.com:5009/webui" -f webui/Dockerfile .
+
+push-webui:
+	docker push "plrom.niracler.com:5009/webui"
+
+
