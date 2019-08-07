@@ -16,13 +16,7 @@ git fetch upstream
 git merge upstream/master
 ```
 
-## 其他
-
-### 使用虚拟环境
-
-```bash
-source venv/bin/activate
-```
+## 安装并进行单机测试
 
 ### 安装依赖包
 
@@ -32,77 +26,10 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-### CentOS7 关闭防火墙
-
-关闭
-```bash
-$systemctl stop firewalld.service
-```
-
-禁止开机启动
-```bash
-$systemctl disable firewalld.service
-```
-
-### 连接 redis
+### 尝试运行程序
 
 ```bash
-$redis-cli -h 172.28.7.40 -p 6379 -a 123456
-```
-
-## docker swarm 模式分布式部署
-
-### 初始化 swarm 集群
-
-```bash
-$docker swarm init
-```
-
-### 对 docker 节点打标签
-
-```bash
-$docker node update --label-add spider-role=crawler node1
-```
-
-### 构建网络
-
-```bash
-$make network
-```
-
-### 构建 nginx 反向代理
-
-```bash
-$make crawler-nginx
-```
-
-### 启动
-
-```bash
-$make crawler
-```
-
-### 添加hosts
-
-```bash
-$echo "172.28.7.40 inner.registry" >> /etc/hosts
-```
-
-```bash
-tee /etc/docker/daemon.json <<-'EOF'
-{
-  "registry-mirrors": [
-  "https://kfwkfulq.mirror.aliyuncs.com",
-  "https://2lqq34jg.mirror.aliyuncs.com",
-  "https://pee6w651.mirror.aliyuncs.com"
-  ],
-  "insecure-registries" : ["127.0.0.0/8","192.168.0.0/16","172.16.0.0/12","10.0.0.0/8"]
-}
-EOF
-```
-
-```bash
-systemctl restart docker
+scrapy crawl shenshe
 ```
 
 ## 爬虫设计
@@ -161,6 +88,107 @@ systemctl restart docker
 [凤凰网](https://www.ifeng.com/)
 [搜狐](http://news.sohu.com/)
 [readhub](https://readhub.cn/topics)
+
+## 使用swarm模式启动
+
+### CentOS7 关闭防火墙
+
+关闭
+```bash
+$systemctl stop firewalld.service
+```
+
+禁止开机启动
+```bash
+$systemctl disable firewalld.service
+```
+
+### 连接 redis
+
+```bash
+$redis-cli -h 172.28.7.40 -p 6379 -a 123456
+```
+
+## docker swarm 模式分布式部署
+
+### 初始化 swarm 集群
+
+```bash
+$docker swarm init
+```
+
+然后将子节点连上
+
+### 修改hostname
+
+```bash
+$sudo hostnamectl set-hostname <newhostname>
+```
+
+### 构建网络
+
+```bash
+$make network
+```
+
+### 构建 nginx 反向代理
+
+```bash
+$make spider-nginx
+```
+
+### 启动
+
+```bash
+$make spider
+```
+
+### 测试redis以及mongodb
+
+redis
+
+```bash
+$sudo pacman -S redis # 安装redis
+$redis-cli -h centos-l5-vm-01.niracler.com  -p 6379 -a 123456
+$SET runoobkey redis  #OK
+$redis 127.0.0.1:6379> GET runoobkey #"redis"
+```
+
+mongodb [客户端下载](https://robomongo.org/download)(测试文件在test中)
+
+## 启动Web UI
+
+```
+scrapydweb
+```
+
+效果
+http://plrom.niracler.com:5000/1/jobs/
+
+## 假如使用自制镜像，需要以下操作
+
+### 添加hosts
+
+```bash
+$echo "172.28.7.40 inner.registry" >> /etc/hosts
+```
+
+```bash
+tee /etc/docker/daemon.json <<-'EOF'
+{
+  "registry-mirrors": [
+  "https://kfwkfulq.mirror.aliyuncs.com",
+  "https://2lqq34jg.mirror.aliyuncs.com",
+  "https://pee6w651.mirror.aliyuncs.com"
+  ],
+  "insecure-registries" : ["127.0.0.0/8","192.168.0.0/16","172.16.0.0/12","10.0.0.0/8"]
+}
+EOF
+```
+
+```bash
+systemctl restart docker
+```
 
 ## 参考文章
 

@@ -16,7 +16,7 @@ services:
       endpoint_mode: dnsrr
       placement:
         constraints:
-          - "node.hostname == redis"
+          - "node.hostname == spider-1"
     labels:
       traefik.docker.network: spider
       traefik.port: 6379
@@ -35,13 +35,32 @@ services:
       endpoint_mode: dnsrr
       placement:
         constraints:
-          - "node.hostname == redis"
+          - "node.hostname == spider-1"
     environment:
       MONGO_INITDB_ROOT_USERNAME: root
       MONGO_INITDB_ROOT_PASSWORD: 123456
     labels:
       traefik.docker.network: spider
       traefik.port: 27017
+
+  scrapyd:
+    image: vimagick/scrapyd:py3
+    networks:
+      - spider
+#    volumes:
+#      - mongo_data:/data/db
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      endpoint_mode: dnsrr
+      placement:
+        constraints:
+          - "node.hostname == spider-1"
+    labels:
+      traefik.docker.network: spider
+      traefik.port: 6800
 
 #  crawler2:
 #    image: inner.registry:5000/spider
