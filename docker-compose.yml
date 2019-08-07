@@ -43,12 +43,12 @@ services:
       traefik.docker.network: spider
       traefik.port: 27017
 
-  scrapyd:
-    image: plrom.niracler.com:5009/scrapyd
+  webui:
+    image: plrom.niracler.com:5009/webui
     networks:
       - spider
-#    volumes:
-#      - mongo_data:/data/db
+    volumes:
+      - projects:/projects
     deploy:
       mode: replicated
       replicas: 1
@@ -58,10 +58,60 @@ services:
       placement:
         constraints:
           - "node.hostname == spider-1"
-#    command: "sh logparser && scrapyd"
-    labels:
-      traefik.docker.network: spider
-      traefik.port: 6800
+
+  scrapyd-1:
+    image: plrom.niracler.com:5009/scrapyd
+    networks:
+      - spider
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      endpoint_mode: dnsrr
+      placement:
+        constraints:
+          - "node.hostname == spider-1"
+  scrapyd-2:
+    image: plrom.niracler.com:5009/scrapyd
+    networks:
+      - spider
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      endpoint_mode: dnsrr
+      placement:
+        constraints:
+          - "node.hostname == spider-2"
+  scrapyd-3:
+    image: plrom.niracler.com:5009/scrapyd
+    networks:
+      - spider
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      endpoint_mode: dnsrr
+      placement:
+        constraints:
+          - "node.hostname == spider-3"
+  scrapyd-4:
+    image: plrom.niracler.com:5009/scrapyd
+    networks:
+      - spider
+    deploy:
+      mode: replicated
+      replicas: 1
+      restart_policy:
+        condition: on-failure
+      endpoint_mode: dnsrr
+      placement:
+        constraints:
+          - "node.hostname == niracler-pc"
+
 
 #  crawler2:
 #    image: inner.registry:5000/spider
@@ -80,6 +130,7 @@ services:
 volumes:
   redis_data:
   mongo_data:
+  projects:
 
 networks:
   spider:
