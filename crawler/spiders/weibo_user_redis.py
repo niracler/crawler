@@ -20,7 +20,7 @@ class WeiboUser(RedisCrawlSpider):
 
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
-        self.client = redis.Redis(host='10.42.30.245', port='6379', password='123456')  # 连接redis
+        self.client = redis.Redis(host='10.42.41.214', port='6379', password='123456')  # 连接redis
         self.filter = 1
         self.got_num = 0  # 爬取到的微博数
         self.weibo = []
@@ -62,6 +62,7 @@ class WeiboUser(RedisCrawlSpider):
 
         # 将content的url放进redis
         page_num = self.get_page_num(response)
+        page_num = min(page_num, 3)
         for page in range(1, page_num + 1):
             url = "https://weibo.cn/u/{0}?page={1}".format(user_id, page)
             self.client.lpush("weibo_content_redis:start_urls", url)

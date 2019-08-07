@@ -6,7 +6,7 @@ network:
 spider-nginx:
 	docker service create --name spider_nginx \
 --constraint node.role==manager \
--p 6379:6379 -p 27017:27017 \
+-p 6379:6379 -p 27017:27017 -p 6800:6800 \
 --mount type=bind,source=$(basepath)/nginx/nginx-base.conf,target=/etc/nginx/nginx.conf \
 --mount type=bind,source=$(basepath)/nginx/nginx-stream-proxy.conf,target=/etc/nginx/stream.conf.d/nginx-stream-proxy.conf \
 --mount type=bind,source=$(basepath)/nginx/nginx-http-proxy.conf,target=/etc/nginx/conf.d/default.conf \

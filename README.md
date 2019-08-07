@@ -1,13 +1,22 @@
 # crawler
 > 毕业设计的爬虫模块, 琉璃神社爬虫， 新浪微博爬虫
 
-23-
+## 如何团队项目保持同步(重要)
 
-### 使用虚拟环境
+- 第一次时需要,与团队仓库建立联系
 
-```bash
-source venv/bin/activate
 ```
+git remote add upstream https://github.com/ghost-of-fantasy/crawler.git
+```
+
+- 工作前后要运行这几条命令,和团队项目保持同步
+
+```
+git fetch upstream
+git merge upstream/master
+```
+
+## 安装并进行单机测试
 
 ### 安装依赖包
 
@@ -17,77 +26,10 @@ pip install --upgrade pip
 pip install -r requirements.txt
 ```
 
-### CentOS7 关闭防火墙
-
-关闭
-```bash
-$systemctl stop firewalld.service
-```
-
-禁止开机启动
-```bash
-$systemctl disable firewalld.service
-```
-
-### 连接 redis
+### 尝试运行程序
 
 ```bash
-$redis-cli -h 172.28.7.40 -p 6379 -a 123456
-```
-
-## docker swarm 模式分布式部署
-
-### 初始化 swarm 集群
-
-```bash
-$docker swarm init
-```
-
-### 对 docker 节点打标签
-
-```bash
-$docker node update --label-add spider-role=crawler node1
-```
-
-### 构建网络
-
-```bash
-$make network
-```
-
-### 构建 nginx 反向代理
-
-```bash
-$make crawler-nginx
-```
-
-### 启动
-
-```bash
-$make crawler
-```
-
-### 添加hosts
-
-```bash
-$echo "172.28.7.40 inner.registry" >> /etc/hosts
-```
-
-```bash
-tee /etc/docker/daemon.json <<-'EOF'
-{
-  "registry-mirrors": [
-  "https://kfwkfulq.mirror.aliyuncs.com",
-  "https://2lqq34jg.mirror.aliyuncs.com",
-  "https://pee6w651.mirror.aliyuncs.com"
-  ],
-  "insecure-registries" : ["127.0.0.0/8","192.168.0.0/16","172.16.0.0/12","10.0.0.0/8"]
-}
-EOF
-```
-
-```bash
-systemctl restart docker
+scrapy crawl shenshe
 ```
 
 ## 爬虫设计
@@ -103,7 +45,9 @@ systemctl restart docker
 |category|文章类型|
 |publish_time|发布时间|
 
-### 微博爬虫设计
+### 新浪微博爬虫设计
+
+> 像是新浪微博这样的，是账号越多越好
 
 1. 先爬取个人信息
 2. 将这个人所关注的人也加到待爬序列中
@@ -145,6 +89,107 @@ systemctl restart docker
 [搜狐](http://news.sohu.com/)
 [readhub](https://readhub.cn/topics)
 
+## 使用swarm模式启动
+
+### CentOS7 关闭防火墙
+
+关闭
+```bash
+$systemctl stop firewalld.service
+```
+
+禁止开机启动
+```bash
+$systemctl disable firewalld.service
+```
+
+### 连接 redis
+
+```bash
+$redis-cli -h 172.28.7.40 -p 6379 -a 123456
+```
+
+## docker swarm 模式分布式部署
+
+### 初始化 swarm 集群
+
+```bash
+$docker swarm init
+```
+
+然后将子节点连上
+
+### 修改hostname
+
+```bash
+$sudo hostnamectl set-hostname <newhostname>
+```
+
+### 构建网络
+
+```bash
+$make network
+```
+
+### 构建 nginx 反向代理
+
+```bash
+$make spider-nginx
+```
+
+### 启动
+
+```bash
+$make spider
+```
+
+### 测试redis以及mongodb
+
+redis
+
+```bash
+$sudo pacman -S redis # 安装redis
+$redis-cli -h centos-l5-vm-01.niracler.com  -p 6379 -a 123456
+$SET runoobkey redis  #OK
+$redis 127.0.0.1:6379> GET runoobkey #"redis"
+```
+
+mongodb [客户端下载](https://robomongo.org/download)(测试文件在test中)
+
+## 启动Web UI
+
+```
+scrapydweb
+```
+
+效果
+http://plrom.niracler.com:5000/1/jobs/
+
+## 假如使用自制镜像，需要以下操作
+
+### 添加hosts
+
+```bash
+$echo "172.28.7.40 inner.registry" >> /etc/hosts
+```
+
+```bash
+tee /etc/docker/daemon.json <<-'EOF'
+{
+  "registry-mirrors": [
+  "https://kfwkfulq.mirror.aliyuncs.com",
+  "https://2lqq34jg.mirror.aliyuncs.com",
+  "https://pee6w651.mirror.aliyuncs.com"
+  ],
+  "insecure-registries" : ["127.0.0.0/8","192.168.0.0/16","172.16.0.0/12","10.0.0.0/8"]
+}
+EOF
+```
+
+```bash
+systemctl restart docker
+```
+
 ## 参考文章
 
 - [使用 Docker Swarm 搭建分布式爬虫集群](https://www.kingname.info/2018/10/13/use-docker-swarm/)
@@ -160,3 +205,6 @@ systemctl restart docker
 - [An array field in scrapy.Item](https://stackoverflow.com/questions/29227119/an-array-field-in-scrapy-item)
 - [Scrapy 使用写死的cookie 来爬需要登录的页面](https://blog.csdn.net/fox64194167/article/details/79775301)
 - [新浪微博爬虫，用python爬取新浪微博数据](https://github.com/dataabc/weiboSpider)
+- [scrapy爬取新浪微博+cookie池](https://blog.csdn.net/m0_37438418/article/details/80819847)
+- [Scrapyd手册](https://scrapyd.readthedocs.io/en/stable/install.html)
+- [Scrapyd configuration when installing from pip or Github](https://github.com/scrapy/scrapyd/issues/104)

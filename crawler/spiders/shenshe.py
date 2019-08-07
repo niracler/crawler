@@ -5,8 +5,8 @@ from crawler.items import ShensheArticleItem
 
 class ShensheSpider(scrapy.Spider):
     name = 'shenshe'
-    allowed_domains = ['www.liuli.in']
-    start_urls = ['https://www.liuli.in/wp']
+    allowed_domains = ['www.liuli.uk']
+    start_urls = ['https://www.liuli.uk/wp']
 
     def parse(self, response):
         articles = response.css('#content article')

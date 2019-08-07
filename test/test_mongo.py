@@ -1,6 +1,6 @@
 import pymongo
 
-client = pymongo.MongoClient('mongodb://root:123456@10.42.30.245:27017/')
+client = pymongo.MongoClient('mongodb://root:123456@centos-l5-vm-01.niracler.com:27017/')
 db = client['test']
 collection = db['students']
 student = {
