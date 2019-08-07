@@ -10,6 +10,8 @@ RUN pip3 install -r requirements.txt -i https://pypi.tuna.tsinghua.edu.cn/simple
 RUN mkdir /projects
 COPY webui/scrapydweb_settings_v9.py scrapydweb_settings_v9.py
 
+VOLUME /projects /
+
 EXPOSE 5000
 
 CMD ["scrapydweb"]

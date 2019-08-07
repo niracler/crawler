@@ -11,7 +11,7 @@ headers = {
 
 urls = []
 
-for i in range(5, 50):
+for i in range(1, 50):
     res = requests.get(base_url.format(i), headers=headers)
     urls.extend(re.findall('"url":"(.*?)"', res.text))
 
