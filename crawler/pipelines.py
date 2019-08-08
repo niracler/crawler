@@ -19,20 +19,22 @@ class CrawlerPipeline(object):
 class MongoDBPipeline(object):
 
     def __init__(self):
-        connection = pymongo.MongoClient(
+        self.connection = pymongo.MongoClient(
             settings['MONGODB_SERVER'],
         )
-        db = connection[settings['MONGODB_DB']]
-        self.collection = db[settings['MONGODB_COLLECTION']]
+        self.db = self.connection[settings['MONGODB_DB']]
 
     def process_item(self, item, spider):
-        valid = True
+        # 查看是否有spider专属的配置
+        if spider.custom_settings and spider.custom_settings.get('MONGODB_COLLECTION'):
+            collection = self.db[spider.custom_settings.get('MONGODB_COLLECTION')]
+        else:
+            collection = self.db[settings['MONGODB_COLLECTION']]
+
         for data in item:
             if not data:
-                valid = False
                 raise DropItem("Missing {0}!".format(data))
-        if valid:
-            self.collection.insert(dict(item))
-            log.msg("Question added to MongoDB database!",
-                    level=log.DEBUG, spider=spider)
+        collection.insert(dict(item))
+        log.msg("Question added to MongoDB database!",
+                level=log.DEBUG, spider=spider)
         return item

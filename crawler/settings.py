@@ -14,10 +14,10 @@ BOT_NAME = 'crawler'
 SPIDER_MODULES = ['crawler.spiders']
 NEWSPIDER_MODULE = 'crawler.spiders'
 
-# 关于 scrapy_redis 的配置
+# 关于 scrapy_redis 的配置(假如不用redis，将下面4行注释)
 DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
-SCHEDULER = "scrapy_redis.scheduler.Scheduler"
-SCHEDULER_PERSIST = True
+SCHEDULER = "scrapy_redis.scheduler.Scheduler" # 调度器启用Redis存储Requests队列
+SCHEDULER_PERSIST = True # 将Requests队列持久化到Redis，可支持暂停或重启爬虫
 REDIS_URL = 'redis://root:123456@centos-l1-vm-01.niracler.com:6379'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -77,7 +77,7 @@ ITEM_PIPELINES = {
 
 MONGODB_SERVER = 'mongodb://root:123456@centos-l5-vm-01.niracler.com:27017/'
 MONGODB_DB = "spider"
-MONGODB_COLLECTION = "articles"
+MONGODB_COLLECTION = "default"
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://doc.scrapy.org/en/latest/topics/autothrottle.html
