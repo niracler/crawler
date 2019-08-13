@@ -105,9 +105,6 @@ $ tar -czvf crawler.tar.gz  --exclude=crawler/venv crawler
 
 ## 参考文章
 
-- [使用 Docker Swarm 搭建分布式爬虫集群](https://www.kingname.info/2018/10/13/use-docker-swarm/)
-- [分布式网络数据抓取系统设计与实现](https://www.jianshu.com/p/fb028ad74798)
-- [分布式爬虫的部署之Scrapyd分布式部署](https://juejin.im/post/5b0e1a8ff265da092100709f)
 - [scrapy-redis](https://github.com/rmax/scrapy-redis)
 - [小白进阶之Scrapy第三篇（基于Scrapy-Redis的分布式以及cookies池）](https://cuiqingcai.com/4048.html)
 - [如何简单高效地部署和监控分布式爬虫项目](https://juejin.im/post/5bebc5fd6fb9a04a053f3a0e)
@@ -119,5 +116,4 @@ $ tar -czvf crawler.tar.gz  --exclude=crawler/venv crawler
 - [Scrapy 使用写死的cookie 来爬需要登录的页面](https://blog.csdn.net/fox64194167/article/details/79775301)
 - [新浪微博爬虫，用python爬取新浪微博数据](https://github.com/dataabc/weiboSpider)
 - [scrapy爬取新浪微博+cookie池](https://blog.csdn.net/m0_37438418/article/details/80819847)
-- [Scrapyd手册](https://scrapyd.readthedocs.io/en/stable/install.html)
-- [Scrapyd configuration when installing from pip or Github](https://github.com/scrapy/scrapyd/issues/104)
+- [How to set a primary key in MongoDB?](https://stackoverflow.com/questions/3298963/how-to-set-a-primary-key-in-mongodb)

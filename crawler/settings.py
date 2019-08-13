@@ -16,8 +16,8 @@ NEWSPIDER_MODULE = 'crawler.spiders'
 
 # 关于 scrapy_redis 的配置(假如不用redis，将下面4行注释)
 DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
-SCHEDULER = "scrapy_redis.scheduler.Scheduler" # 调度器启用Redis存储Requests队列
-SCHEDULER_PERSIST = True # 将Requests队列持久化到Redis，可支持暂停或重启爬虫
+SCHEDULER = "scrapy_redis.scheduler.Scheduler"  # 调度器启用Redis存储Requests队列
+SCHEDULER_PERSIST = True  # 将Requests队列持久化到Redis，可支持暂停或重启爬虫
 REDIS_URL = 'redis://root:123456@centos-l1-vm-01.niracler.com:6379'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
@@ -32,7 +32,7 @@ ROBOTSTXT_OBEY = False
 # Configure a delay for requests for the same website (default: 0)
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 3
+DOWNLOAD_DELAY = 1
 # The download delay setting will honor only one of:
 # CONCURRENT_REQUESTS_PER_DOMAIN = 16
 # CONCURRENT_REQUESTS_PER_IP = 16
