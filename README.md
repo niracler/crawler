@@ -117,3 +117,6 @@ $ tar -czvf crawler.tar.gz  --exclude=crawler/venv crawler
 - [新浪微博爬虫，用python爬取新浪微博数据](https://github.com/dataabc/weiboSpider)
 - [scrapy爬取新浪微博+cookie池](https://blog.csdn.net/m0_37438418/article/details/80819847)
 - [How to set a primary key in MongoDB?](https://stackoverflow.com/questions/3298963/how-to-set-a-primary-key-in-mongodb)
+- [Logging](https://docs.scrapy.org/en/latest/topics/logging.html)
+- [settings](https://docs.scrapy.org/en/latest/topics/settings.html)
+- [item-pipeline](https://docs.scrapy.org/en/latest/topics/item-pipeline.html)
