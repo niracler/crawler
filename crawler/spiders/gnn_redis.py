@@ -11,6 +11,9 @@ class GnnSpider(RedisCrawlSpider):
 
     custom_settings = {
         'MONGODB_COLLECTION': 'gnn_articles',
+        'DOWNLOADER_MIDDLEWARES': {
+            'crawler.middlewares.ProxyMiddleware': 1,
+        }
     }
 
     def parse(self, response):

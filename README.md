@@ -120,3 +120,5 @@ $ tar -czvf crawler.tar.gz  --exclude=crawler/venv crawler
 - [Logging](https://docs.scrapy.org/en/latest/topics/logging.html)
 - [settings](https://docs.scrapy.org/en/latest/topics/settings.html)
 - [item-pipeline](https://docs.scrapy.org/en/latest/topics/item-pipeline.html)
+- [使用 privoxy 转发 socks 到 http ](http://einverne.github.io/post/2018/03/privoxy-forward-socks-to-http.html)
+- [Make Scrapy work with socket proxy](https://blog.michaelyin.info/scrapy-socket-proxy/)
