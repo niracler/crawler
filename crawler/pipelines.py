@@ -30,6 +30,8 @@ class MongoDBPipeline(object):
             collection = self.db[spider.custom_settings.get('MONGODB_COLLECTION')]
         else:
             collection = self.db[settings['MONGODB_COLLECTION']]
+        collection.create_index('url', unique=True)
+        collection.create_index('title')
 
         for data in item:
             if not data:
