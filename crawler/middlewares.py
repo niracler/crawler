@@ -8,6 +8,11 @@
 from scrapy import signals
 
 
+class ProxyMiddleware(object):
+    def process_request(self, request, spider):
+        request.meta['proxy'] = "http://plrom.niracler.com:8118"
+
+
 class CrawlerSpiderMiddleware(object):
     # Not all methods need to be defined. If a method is not defined,
     # scrapy acts as if the spider middleware does not modify the

@@ -19,10 +19,11 @@ PyDispatcher==2.0.5
 PyHamcrest==1.9.0
 pymongo==3.8.0
 pyOpenSSL==19.0.0
+pytz==2019.2
 queuelib==1.5.0
 redis==3.3.6
 requests==2.22.0
-Scrapy==1.6.0
+Scrapy==1.7.3
 scrapy-redis==0.6.8
 service-identity==18.1.0
 six==1.12.0

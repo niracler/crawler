@@ -21,7 +21,11 @@ SCHEDULER_PERSIST = True  # 将Requests队列持久化到Redis，可支持暂停
 REDIS_URL = 'redis://root:123456@centos-l1-vm-01.niracler.com:6379'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
-USER_AGENT = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/49.0.2623.110 Safari/537.36'
+USER_AGENT = [
+    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1",
+    "Mozilla/5.0 (X11; CrOS i686 2268.111.0) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11",
+    "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/536.6 (KHTML, like Gecko) Chrome/20.0.1092.0 Safari/536.6",
+]
 
 # Obey robots.txt rules
 ROBOTSTXT_OBEY = False
@@ -32,7 +36,7 @@ ROBOTSTXT_OBEY = False
 # Configure a delay for requests for the same website (default: 0)
 # See https://doc.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 1
+DOWNLOAD_DELAY = 3
 # The download delay setting will honor only one of:
 # CONCURRENT_REQUESTS_PER_DOMAIN = 16
 # CONCURRENT_REQUESTS_PER_IP = 16
@@ -47,6 +51,10 @@ COOKIES_ENABLED = True
 # DEFAULT_REQUEST_HEADERS = {
 #   'Accept': 'text/html,application/xhtml+xml,application/xml;q=0.9,*/*;q=0.8',
 #   'Accept-Language': 'en',
+# }
+#
+# DOWNLOADER_MIDDLEWARES = {
+#     'crawler.middlewares.ProxyMiddleware': 1,
 # }
 
 # Enable or disable spider middlewares
@@ -72,10 +80,10 @@ COOKIES_ENABLED = True
 ITEM_PIPELINES = {
     # 'crawler.pipelines.CrawlerPipeline': 300,
     # 'scrapy_redis.pipelines.RedisPipeline': 400,
-    'crawler.pipelines.MongoDBPipeline': 300,
+    'crawler.pipelines.MongoPipeline': 300,
 }
 
-MONGODB_SERVER = 'mongodb://root:123456@centos-l5-vm-01.niracler.com:27017/'
+MONGODB_SERVER = 'mongodb://root:123456@centos-l5-vm-01.niracler.com:27017/spider?authSource=admin'
 MONGODB_DB = "spider"
 MONGODB_COLLECTION = "default"
 
