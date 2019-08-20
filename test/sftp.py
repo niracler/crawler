@@ -25,3 +25,5 @@ if __name__ == '__main__':
     local = '/home/niracler/图片/'  # 本地文件或目录，与远程一致，当前为windows目录格式，window目录中间需要使用双斜线
     remote = '/home/niracler/PycharmProjects/game-news/media/'  # 远程文件或目录，与本地一致，当前为linux目录格式
     sftp_upload(host, port, username, password, local, remote)  # 上传
+
+    # /media/<图片名>
