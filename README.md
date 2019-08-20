@@ -1,5 +1,5 @@
 # crawler
-> 毕业设计的爬虫模块, 琉璃神社爬虫， 新浪微博爬虫
+> 毕业设计的爬虫模块, 琉璃神社爬虫， 新浪微博爬虫, 等后续是面向于游戏方面的资讯
 
 ## 如何团队项目保持同步(重要)
 
@@ -34,7 +34,7 @@ scrapy crawl shenshe
 
 ## 爬虫设计
 
-### 文章对象  
+### 新闻对象  
 
 |Key|Value|  
 |:---:|:---:|  
@@ -84,127 +84,18 @@ scrapy crawl shenshe
 
 ## 待爬取网站
 
-[新浪](https://www.sina.com.cn/)
-[凤凰网](https://www.ifeng.com/)
-[搜狐](http://news.sohu.com/)
-[readhub](https://readhub.cn/topics)
-
-## 使用swarm模式启动
-
-### CentOS7 关闭防火墙
-
-关闭
-```bash
-$systemctl stop firewalld.service
-```
-
-禁止开机启动
-```bash
-$systemctl disable firewalld.service
-```
-
-### 连接 redis
-
-```bash
-$redis-cli -h 172.28.7.40 -p 6379 -a 123456
-```
-
-## docker swarm 模式分布式部署
-
-### 初始化 swarm 集群
-
-```bash
-$docker swarm init
-```
-
-然后将子节点连上
-
-### 修改hostname
-
-```bash
-$sudo hostnamectl set-hostname <newhostname>
-```
-
-### 构建网络
-
-```bash
-$make network
-```
-
-### 构建 nginx 反向代理
-
-```bash
-$make spider-nginx
-```
-
-### 启动
-
-```bash
-$make spider
-```
-
-### 测试redis以及mongodb
-
-redis
-
-```bash
-$sudo pacman -S redis # 安装redis
-$redis-cli -h centos-l5-vm-01.niracler.com  -p 6379 -a 123456
-$SET runoobkey redis  #OK
-$redis 127.0.0.1:6379> GET runoobkey #"redis"
-```
-
-mongodb [客户端下载](https://robomongo.org/download)(测试文件在test中)
-
-## 启动Web UI
-
-```
-scrapydweb
-```
-
-效果
-http://plrom.niracler.com:5000/1/jobs/
-
-## 假如使用自制镜像，需要以下操作
-
-```bash
-docker pull registry:latest
-```
-
-等待下载完成之后， 运行这个镜像：
-
-```bash
-docker run \
-  --detach \
-  --name registry \
-  --hostname registry \
-  --volume /home/niracler/registry:/var/lib/registry/docker/registry \
-  --publish 5009:5000 \
-  --restart unless-stopped \
-  registry:latest
-```
-
-每一台电脑上都要运行这命令
-
-```bash
-tee /etc/docker/daemon.json <<-'EOF'
-{
-  "registry-mirrors": [
-  "https://kfwkfulq.mirror.aliyuncs.com",
-  "https://2lqq34jg.mirror.aliyuncs.com",
-  "https://pee6w651.mirror.aliyuncs.com"
-  ],
-  "insecure-registries" : ["127.0.0.0/8","192.168.0.0/16","172.16.0.0/12","10.0.0.0/8"]
-}
-EOF
-```
-
-重启docker
-
-```bash
-systemctl daemon-reload
-systemctl restart docker
-```
+ - [x] 17173 https://www.17173.com/
+ - [x] 巴哈姆特電玩資訊站 https://www.gamer.com.tw/
+ - [ ] 3dmgame https://www.3dmgame.com/news/
+ - [ ] 电玩巴士 https://www.tgbus.com/
+ - [ ] 游侠网 https://www.ali213.net/
+ - [ ] 游民星空 https://www.gamersky.com/news/
+ - [ ] 机核网 https://www.gcores.com/news
+ - [ ] 漫资讯 https://www.dongmanzx.com/
+ - [ ] acg批评 http://www.acgpiping.net/
+ - [ ] 半次元 https://bcy.net/
+ - [ ] 果壳网 https://www.guokr.com/scientific/
+ - [ ] 178网游 http://www.178.com/
 
 ### 打包命令
 ```bash
@@ -214,9 +105,6 @@ $ tar -czvf crawler.tar.gz  --exclude=crawler/venv crawler
 
 ## 参考文章
 
-- [使用 Docker Swarm 搭建分布式爬虫集群](https://www.kingname.info/2018/10/13/use-docker-swarm/)
-- [分布式网络数据抓取系统设计与实现](https://www.jianshu.com/p/fb028ad74798)
-- [分布式爬虫的部署之Scrapyd分布式部署](https://juejin.im/post/5b0e1a8ff265da092100709f)
 - [scrapy-redis](https://github.com/rmax/scrapy-redis)
 - [小白进阶之Scrapy第三篇（基于Scrapy-Redis的分布式以及cookies池）](https://cuiqingcai.com/4048.html)
 - [如何简单高效地部署和监控分布式爬虫项目](https://juejin.im/post/5bebc5fd6fb9a04a053f3a0e)
@@ -228,5 +116,9 @@ $ tar -czvf crawler.tar.gz  --exclude=crawler/venv crawler
 - [Scrapy 使用写死的cookie 来爬需要登录的页面](https://blog.csdn.net/fox64194167/article/details/79775301)
 - [新浪微博爬虫，用python爬取新浪微博数据](https://github.com/dataabc/weiboSpider)
 - [scrapy爬取新浪微博+cookie池](https://blog.csdn.net/m0_37438418/article/details/80819847)
-- [Scrapyd手册](https://scrapyd.readthedocs.io/en/stable/install.html)
-- [Scrapyd configuration when installing from pip or Github](https://github.com/scrapy/scrapyd/issues/104)
+- [How to set a primary key in MongoDB?](https://stackoverflow.com/questions/3298963/how-to-set-a-primary-key-in-mongodb)
+- [Logging](https://docs.scrapy.org/en/latest/topics/logging.html)
+- [settings](https://docs.scrapy.org/en/latest/topics/settings.html)
+- [item-pipeline](https://docs.scrapy.org/en/latest/topics/item-pipeline.html)
+- [使用 privoxy 转发 socks 到 http ](http://einverne.github.io/post/2018/03/privoxy-forward-socks-to-http.html)
+- [Make Scrapy work with socket proxy](https://blog.michaelyin.info/scrapy-socket-proxy/)

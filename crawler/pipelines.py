@@ -6,9 +6,6 @@
 # See: https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 
 import pymongo
-from scrapy.conf import settings
-from scrapy.exceptions import DropItem
-from scrapy import log
 
 
 class CrawlerPipeline(object):
@@ -16,25 +13,33 @@ class CrawlerPipeline(object):
         return item
 
 
-class MongoDBPipeline(object):
+class MongoPipeline(object):
 
-    def __init__(self):
-        self.connection = pymongo.MongoClient(
-            settings['MONGODB_SERVER'],
+    def __init__(self, mongo_uri, mongo_db):
+        self.mongo_uri = mongo_uri
+        self.mongo_db = mongo_db
+
+    @classmethod
+    def from_crawler(cls, crawler):
+        return cls(
+            mongo_uri=crawler.settings.get('MONGODB_SERVER'),
+            mongo_db=crawler.settings.get('MONGODB_DB', 'items')
         )
-        self.db = self.connection[settings['MONGODB_DB']]
+
+    def open_spider(self, spider):
+        self.client = pymongo.MongoClient(self.mongo_uri)
+        self.db = self.client[self.mongo_db]
+
+        if spider.custom_settings and spider.custom_settings.get('MONGODB_COLLECTION'):
+            self.collection = spider.custom_settings.get('MONGODB_COLLECTION')
+        else:
+            self.collection = spider.settings['MONGODB_COLLECTION']
+        self.db[self.collection].create_index('url', unique=True)
+        self.db[self.collection].create_index('title')
+
+    def close_spider(self, spider):
+        self.client.close()
 
     def process_item(self, item, spider):
-        # 查看是否有spider专属的配置
-        if spider.custom_settings and spider.custom_settings.get('MONGODB_COLLECTION'):
-            collection = self.db[spider.custom_settings.get('MONGODB_COLLECTION')]
-        else:
-            collection = self.db[settings['MONGODB_COLLECTION']]
-
-        for data in item:
-            if not data:
-                raise DropItem("Missing {0}!".format(data))
-        collection.insert(dict(item))
-        log.msg("Question added to MongoDB database!",
-                level=log.DEBUG, spider=spider)
+        self.db[self.collection].insert_one(dict(item))
         return item
