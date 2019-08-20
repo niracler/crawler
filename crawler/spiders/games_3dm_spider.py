@@ -4,16 +4,28 @@ from crawler.items import ThreeDMConsoleGame, ThreeDMOLGame, ThreeDMShouYouGame
 import requests
 from crawler.tool import random_filename
 
-class ThreedmconsolegameSpider(scrapy.Spider):
-    name = 'ThreeDMConsoleGame'
+
+class Games3dmSpider(scrapy.Spider):
+    name = 'games_3dm_spider'
     allowed_domains = ['www.3dmgame.com']
     start_urls = ['https://www.3dmgame.com/games/zq_1/']
     headers = {
         'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36',
         'Upgrade-Insecure-Requests': '1',
     }
+
+    custom_settings = {
+        'MONGODB_COLLECTION': 'games_3dm',
+        'ITEM_PIPELINES': {
+            'crawler.pipelines.CrawlerPipeline': 300,
+            'crawler.pipelines.ImgDownloadPipeline': 300,
+            # 'scrapy_redis.pipelines.RedisPipeline': 400,
+            # 'crawler.pipelines.MongoPipeline': 300,
+        }
+    }
+
     # custom_settings = {
-    #     'MONGODB_COLLECTION': '3dm_console_game',
+    #     'MONGODB_COLLECTION': 'games_3dm',
     # }
     def start_requests(self):
         for url in self.start_urls:
@@ -33,7 +45,8 @@ class ThreedmconsolegameSpider(scrapy.Spider):
     def deal_with_data(self, item, response):
         # 将数据规范化
         item['name'] = '-'.join(
-            [response.xpath('a[@class="bt"]/text()').extract_first().strip(), response.xpath('a[@class="bt"]/span/text()').extract_first()])
+            [response.xpath('a[@class="bt"]/text()').extract_first().strip(),
+             response.xpath('a[@class="bt"]/span/text()').extract_first()])
         item['publish_time'] = response.xpath('ul[@class="info"]/li[1]/text()').extract_first().split('：')[-1]
         item['publisher'] = response.xpath('ul[@class="info"]/li[2]/text()').extract_first().split('：')[-1]
         item['developer'] = response.xpath('ul[@class="info"]/li[3]/text()').extract_first().split('：')[-1]
@@ -44,7 +57,7 @@ class ThreedmconsolegameSpider(scrapy.Spider):
         item['score'] = response.xpath('div[@class="pfbox"]//font/text()').extract_first()
         img_url = response.xpath('a[@class="img"]/img/@src').extract_first()
         filename = random_filename(img_url)
-        item['img_url'] = '/media/' + filename
-        with open('/home/zzh/图片/Threedmconsolegame/'+filename, 'wb') as f:
-            f.write(requests.get(url=response.xpath('a[@class="img"]/img/@src').extract_first(), headers=self.headers).content)
+        item['img_url'] = img_url
+        item['img_path'] = '/media/' + filename
+
         return item
