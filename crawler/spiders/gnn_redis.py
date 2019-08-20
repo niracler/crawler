@@ -10,7 +10,7 @@ class GnnSpider(RedisCrawlSpider):
     redis_key = 'gnn_redis:start_urls'
 
     custom_settings = {
-        'MONGODB_COLLECTION': 'gnn_articles',
+        'MONGODB_COLLECTION': 'gnn_game',
         'DOWNLOADER_MIDDLEWARES': {
             'crawler.middlewares.ProxyMiddleware': 1,
         }
@@ -30,7 +30,7 @@ class GnnSpider(RedisCrawlSpider):
 
     def parse_item(self, response):
         item = response.meta.get('item')
-        item['content'] = response.xpath('string(//div[@class="GN-lbox3B"]/div)').extract()
-        item['category'] = response.xpath('//ul[@class="platform-tag"]/li/a/text()').extract()
+        item['content'] = " ".join(response.xpath('string(//div[@class="GN-lbox3B"]/div)').extract())
+        item['category'] = " ".join(response.xpath('//ul[@class="platform-tag"]/li/a/text()').extract())
         item['publish_time'] = response.xpath("//span[@class='GN-lbox3C']/text()").extract_first()
         yield item
