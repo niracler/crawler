@@ -15,10 +15,10 @@ SPIDER_MODULES = ['crawler.spiders']
 NEWSPIDER_MODULE = 'crawler.spiders'
 
 # 关于 scrapy_redis 的配置(假如不用redis，将下面4行注释)
-DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
-SCHEDULER = "scrapy_redis.scheduler.Scheduler"  # 调度器启用Redis存储Requests队列
-SCHEDULER_PERSIST = True  # 将Requests队列持久化到Redis，可支持暂停或重启爬虫
-REDIS_URL = 'redis://root:123456@centos-l1-vm-01.niracler.com:6379'
+# DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
+# SCHEDULER = "scrapy_redis.scheduler.Scheduler"  # 调度器启用Redis存储Requests队列
+# SCHEDULER_PERSIST = True  # 将Requests队列持久化到Redis，可支持暂停或重启爬虫
+# REDIS_URL = 'redis://root:123456@centos-l1-vm-01.niracler.com:6379'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = [
@@ -80,7 +80,7 @@ COOKIES_ENABLED = True
 ITEM_PIPELINES = {
     # 'crawler.pipelines.CrawlerPipeline': 300,
     # 'scrapy_redis.pipelines.RedisPipeline': 400,
-    'crawler.pipelines.MongoPipeline': 300,
+    #'crawler.pipelines.MongoPipeline': 300,
 }
 
 MONGODB_SERVER = 'mongodb://root:123456@centos-l5-vm-01.niracler.com:27017/spider?authSource=admin'

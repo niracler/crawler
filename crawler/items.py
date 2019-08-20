@@ -14,6 +14,48 @@ class CrawlerItem(scrapy.Item):
     pass
 
 
+class ThreeDMConsoleGame(scrapy.Item):  # 单机游戏
+    name = scrapy.Field()  # 游戏名
+    publish_time = scrapy.Field()  # 发行时间
+    publisher = scrapy.Field()  # 运营商
+    developer = scrapy.Field()  # 开发商
+    platform = scrapy.Field()  # 运营平台
+    category = scrapy.Field()  # 类别  ‘单机 ***’
+    language = scrapy.Field()  # 语言
+    img_url = scrapy.Field()  # 图片链接
+    #img_source = scrapy.Field()  # 图片数据
+    description = scrapy.Field()  # 描述
+    score = scrapy.Field()  # 评分
+
+
+class ThreeDMOLGame(scrapy.Item):  # 网络游戏
+    name = scrapy.Field()  # 游戏名
+    publish_time = scrapy.Field()  # 发行时间
+    publisher = scrapy.Field()  # 运营商
+    developer = scrapy.Field()  # 开发商
+    state = scrapy.Field()  # 游戏状态
+    category = scrapy.Field()  # 类别  ‘网游 ***’
+    picture = scrapy.Field()  # 画面类型 3D等
+    img_url = scrapy.Field()  # 图片链接
+    #img_source = scrapy.Field()  # 图片数据
+    label = scrapy.Field()  # 标签
+    score = scrapy.Field()  # 评分
+
+
+class ThreeDMShouYouGame(scrapy.Item):  # 手机游戏
+    name = scrapy.Field()  # 游戏名
+    publish_time = scrapy.Field()  # 发行时间
+    publisher = scrapy.Field()  # 运营商
+    platform = scrapy.Field()  # a1为安卓 a2为苹果
+    language = scrapy.Field()  # 语言
+    category = scrapy.Field()  # 类别  ‘手游 ***’
+    volume = scrapy.Field()  # 游戏大小
+    img_url = scrapy.Field()  # 图片链接
+    #img_source = scrapy.Field()  # 图片数据
+    description = scrapy.Field()  # 描述
+    score = scrapy.Field()  # 评分
+
+
 class ArticleItem(scrapy.Item):
     website = scrapy.Field()  # 所爬取的网站的名称
     url = scrapy.Field()  # 文章链接
