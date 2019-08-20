@@ -23,7 +23,7 @@ class ThreeDMConsoleGame(scrapy.Item):  # 单机游戏
     category = scrapy.Field()  # 类别  ‘单机 ***’
     language = scrapy.Field()  # 语言
     img_url = scrapy.Field()  # 图片链接
-    #img_source = scrapy.Field()  # 图片数据
+    img_path = scrapy.Field()  # 图片本地路径
     description = scrapy.Field()  # 描述
     score = scrapy.Field()  # 评分
 
@@ -37,7 +37,8 @@ class ThreeDMOLGame(scrapy.Item):  # 网络游戏
     category = scrapy.Field()  # 类别  ‘网游 ***’
     picture = scrapy.Field()  # 画面类型 3D等
     img_url = scrapy.Field()  # 图片链接
-    #img_source = scrapy.Field()  # 图片数据
+    img_path = scrapy.Field()  # 图片本地路径
+    # img_source = scrapy.Field()  # 图片数据
     label = scrapy.Field()  # 标签
     score = scrapy.Field()  # 评分
 
@@ -51,7 +52,8 @@ class ThreeDMShouYouGame(scrapy.Item):  # 手机游戏
     category = scrapy.Field()  # 类别  ‘手游 ***’
     volume = scrapy.Field()  # 游戏大小
     img_url = scrapy.Field()  # 图片链接
-    #img_source = scrapy.Field()  # 图片数据
+    img_path = scrapy.Field()  # 图片本地路径
+    # img_source = scrapy.Field()  # 图片数据
     description = scrapy.Field()  # 描述
     score = scrapy.Field()  # 评分
 
