@@ -38,6 +38,7 @@ class ThreeDMOLGame(scrapy.Item):  # 网络游戏
     picture = scrapy.Field()  # 画面类型 3D等
     img_url = scrapy.Field()  # 图片链接
     img_path = scrapy.Field()  # 图片本地路径
+    popularity = scrapy.Field()  # 人气
     # img_source = scrapy.Field()  # 图片数据
     label = scrapy.Field()  # 标签
     score = scrapy.Field()  # 评分
@@ -56,6 +57,16 @@ class ThreeDMShouYouGame(scrapy.Item):  # 手机游戏
     # img_source = scrapy.Field()  # 图片数据
     description = scrapy.Field()  # 描述
     score = scrapy.Field()  # 评分
+
+
+class GameSky(scrapy.Item):
+    name = scrapy.Field()  # 游戏名
+    publish_time = scrapy.Field()  # 发行时间
+    publisher = scrapy.Field()  # 运营商
+    category = scrapy.Field()  # 类别  ‘网游 ***’
+    img_url = scrapy.Field()  # 图片链接
+    img_path = scrapy.Field()  # 图片本地路径
+    description = scrapy.Field()  # 描述
 
 
 class ArticleItem(scrapy.Item):

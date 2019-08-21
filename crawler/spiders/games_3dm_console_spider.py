@@ -6,7 +6,7 @@ from crawler.tool import random_filename
 
 
 class Games3dmSpider(scrapy.Spider):
-    name = 'games_3dm_spider'
+    name = 'games_3dm_console_spider'
     allowed_domains = ['www.3dmgame.com']
     start_urls = ['https://www.3dmgame.com/games/zq_1/']
     headers = {
