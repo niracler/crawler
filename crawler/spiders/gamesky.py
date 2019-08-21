@@ -13,15 +13,17 @@ class GameSkySpider(scrapy.Spider):
         'User-Agent': 'Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/73.0.3683.86 Safari/537.36',
         'Upgrade-Insecure-Requests': '1',
     }
-    # custom_settings = {
-    #     'MONGODB_COLLECTION': 'gamesky',
-    #     'ITEM_PIPELINES': {
-    #         'crawler.pipelines.CrawlerPipeline': 300,
-    #         'crawler.pipelines.ImgDownloadPipeline': 300,
-    #         # 'scrapy_redis.pipelines.RedisPipeline': 400,
-    #         # 'crawler.pipelines.MongoPipeline': 300,
-    #     }
-    # }
+    custom_settings = {
+        'MONGODB_COLLECTION': 'gamesky',
+        'ITEM_PIPELINES': {
+            #'crawler.pipelines.CrawlerPipeline': 300,
+            'crawler.pipelines.ImgDownloadPipeline': 300,
+            # 'scrapy_redis.pipelines.RedisPipeline': 400,
+            'crawler.pipelines.MongoPipeline': 400,
+        }
+    }
+    item_index = 'name'
+
     def start_requests(self):
         for url in self.start_urls:
             yield scrapy.Request(url, headers=self.headers, callback=self.parse)
@@ -55,7 +57,7 @@ class GameSkySpider(scrapy.Spider):
         item['publish_time'] = response.xpath('div[1]/div[3]/text()').extract_first().split('：')[-1].strip()
         item['category'] = ' '.join([category, response.xpath('div[1]/div[4]/a/text()').extract_first()])
         item['publisher'] = response.xpath('div[1]/div[5]/text()').extract_first().split('：')[-1].strip()
-        item['description'] = response.xpath('div[1]/div[6]/p/text()').extract_first().replace('\r\n', '').replace('\u3000').strip()
+        item['description'] = response.xpath('div[1]/div[6]/p/text()').extract_first().replace('\r\n', '').replace('\u3000', '').strip()
         img_url = response.xpath('div[1]/div[1]//img/@src').extract_first()
         filename = random_filename(img_url)
         item['img_url'] = img_url
