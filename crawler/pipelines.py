@@ -37,8 +37,7 @@ class MongoPipeline(object):
             self.collection = spider.custom_settings.get('MONGODB_COLLECTION')
         else:
             self.collection = spider.settings['MONGODB_COLLECTION']
-        self.db[self.collection].create_index('url', unique=True)
-        self.db[self.collection].create_index('title')
+        self.db[self.collection].create_index(spider.item_index, unique=True)
 
     def close_spider(self, spider):
         self.client.close()

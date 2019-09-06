@@ -7,6 +7,7 @@ from crawler.tool import random_filename
 
 class Games3dmSpider(scrapy.Spider):
     name = 'games_3dm_console_spider'
+    item_index = 'name'
     allowed_domains = ['www.3dmgame.com']
     start_urls = ['https://www.3dmgame.com/games/zq_1/']
     headers = {
@@ -15,12 +16,12 @@ class Games3dmSpider(scrapy.Spider):
     }
 
     custom_settings = {
-        'MONGODB_COLLECTION': 'games_3dm',
+        'MONGODB_COLLECTION': 'games_3dm_console',
         'ITEM_PIPELINES': {
-            'crawler.pipelines.CrawlerPipeline': 300,
+            # 'crawler.pipelines.CrawlerPipeline': 300,
             'crawler.pipelines.ImgDownloadPipeline': 300,
             # 'scrapy_redis.pipelines.RedisPipeline': 400,
-            # 'crawler.pipelines.MongoPipeline': 300,
+            'crawler.pipelines.MongoPipeline': 400,
         }
     }
 
@@ -36,7 +37,8 @@ class Games3dmSpider(scrapy.Spider):
         lists = response.xpath('//div[@class="ztliswrap"]/div[@class="lis"]')
         for i in lists:
             item = self.deal_with_data(item=item, response=i)
-            yield item
+            if item:
+                yield item
 
         next = response.xpath('//div[@class="pagewrap"]/ul/li[@class="next"]/a/@href').extract_first()
         if next:
@@ -44,20 +46,26 @@ class Games3dmSpider(scrapy.Spider):
 
     def deal_with_data(self, item, response):
         # 将数据规范化
-        item['name'] = '-'.join(
-            [response.xpath('a[@class="bt"]/text()').extract_first().strip(),
-             response.xpath('a[@class="bt"]/span/text()').extract_first()])
-        item['publish_time'] = response.xpath('ul[@class="info"]/li[1]/text()').extract_first().split('：')[-1]
-        item['publisher'] = response.xpath('ul[@class="info"]/li[2]/text()').extract_first().split('：')[-1]
-        item['developer'] = response.xpath('ul[@class="info"]/li[3]/text()').extract_first().split('：')[-1]
-        item['platform'] = response.xpath('ul[@class="info"]/li[4]/text()').extract_first().split('：')[-1]
-        item['category'] = '单机 ' + response.xpath('ul[@class="info"]/li[5]/text()').extract_first().split('：')[-1]
-        item['language'] = response.xpath('ul[@class="info"]/li[6]/text()').extract_first().split('：')[-1]
-        item['description'] = response.xpath('div[@class="miaoshu"]/text()').extract_first().replace('\n', '').strip()
-        item['score'] = response.xpath('div[@class="pfbox"]//font/text()').extract_first()
-        img_url = response.xpath('a[@class="img"]/img/@src').extract_first()
-        filename = random_filename(img_url)
-        item['img_url'] = img_url
-        item['img_path'] = '/media/' + filename
+        try:
+            item['name'] = '-'.join(
+                [response.xpath('a[@class="bt"]/text()').extract_first().strip(),
+                 response.xpath('a[@class="bt"]/span/text()').extract_first()])
+            item['publish_time'] = response.xpath('ul[@class="info"]/li[1]/text()').extract_first().split('：')[-1]
+            item['publisher'] = response.xpath('ul[@class="info"]/li[2]/text()').extract_first().split('：')[-1]
+            item['developer'] = response.xpath('ul[@class="info"]/li[3]/text()').extract_first().split('：')[-1]
+            item['platform'] = response.xpath('ul[@class="info"]/li[4]/text()').extract_first().split('：')[-1]
+            item['category'] = '单机 ' + response.xpath('ul[@class="info"]/li[5]/text()').extract_first().split('：')[-1]
+            item['language'] = response.xpath('ul[@class="info"]/li[6]/text()').extract_first().split('：')[-1]
+            item['description'] = response.xpath('div[@class="miaoshu"]/text()').extract_first().replace('\n', '').strip()
+            item['score'] = response.xpath('div[@class="pfbox"]//font/text()').extract_first()
+            img_url = response.xpath('a[@class="img"]/img/@src').extract_first()
+            filename = random_filename(img_url)
+            item['img_url'] = img_url
+            item['img_path'] = '/media/' + filename
 
-        return item
+            return item
+        except Exception as e:
+            print(e)
+            return None
+
+
