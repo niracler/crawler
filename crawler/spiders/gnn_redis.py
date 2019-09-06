@@ -8,9 +8,9 @@ class GnnSpider(RedisCrawlSpider):
     name = 'gnn_redis'
     allowed_domains = ['gnn.gamer.com.tw']
     redis_key = 'gnn_redis:start_urls'
-
+    item_index = 'url'
     custom_settings = {
-        'MONGODB_COLLECTION': 'gnn_game',
+        'MONGODB_COLLECTION': 'gnn_game2',
         'DOWNLOADER_MIDDLEWARES': {
             'crawler.middlewares.ProxyMiddleware': 1,
         }
@@ -30,7 +30,14 @@ class GnnSpider(RedisCrawlSpider):
 
     def parse_item(self, response):
         item = response.meta.get('item')
-        item['content'] = " ".join(response.xpath('string(//div[@class="GN-lbox3B"]/div)').extract())
-        item['category'] = " ".join(response.xpath('//ul[@class="platform-tag"]/li/a/text()').extract())
-        item['publish_time'] = response.xpath("//span[@class='GN-lbox3C']/text()").extract_first()
+        if  not response.request.meta.get('redirect_urls'):
+            item['content'] = " ".join(response.xpath('string(//div[@class="GN-lbox3B"]/div)').extract())
+            item['category'] = " ".join(response.xpath('//ul[@class="platform-tag"]/li/a/text()').extract())
+            item['publish_time'] = response.xpath("//span[@class='GN-lbox3C']/text()").extract_first()
+        else:
+            print('******************************************************************************')
+            print(response.url)
+            item['content'] = " ".join(response.xpath('//div[@class="MSG-list8C"]/div//text()').extract())
+            item['category'] = " "
+            item['publish_time'] = response.xpath('//div[@class="BH-lbox MSG-list8"]/span[2]/text()').extract_first()
         yield item
