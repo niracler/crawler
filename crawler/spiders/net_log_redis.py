@@ -1,5 +1,6 @@
 from crawler.items import NetLogItem
 from scrapy_redis.spiders import RedisCrawlSpider
+from datetime import datetime
 
 
 class NetLogSpider(RedisCrawlSpider):
@@ -15,5 +16,6 @@ class NetLogSpider(RedisCrawlSpider):
     def parse(self, response):
         net_log = NetLogItem()
         net_log['url'] = response.url
-        net_log['urldata'] = response.text
+        net_log['urldata'] = " ".join(response.xpath('//text()').extract())
+        net_log['update'] = str(datetime.now())
         yield net_log

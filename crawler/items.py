@@ -11,7 +11,7 @@ import scrapy
 class NetLogItem(scrapy.Item):
     url = scrapy.Field()  # url
     urldata = scrapy.Field()  # url内容
-    # created = scrapy.Field()  # 创建时间
+    update = scrapy.Field()  # 创建时间
 
 
 class CrawlerItem(scrapy.Item):
