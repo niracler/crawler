@@ -14,7 +14,7 @@ class ThreeDMOLGameSpider(scrapy.Spider):
         'Upgrade-Insecure-Requests': '1',
     }
     custom_settings = {
-        'MONGODB_COLLECTION': 'games_3dm_ol',
+        'MONGODB_COLLECTION': 'entity',
         'ITEM_PIPELINES': {
             # 'crawler.pipelines.CrawlerPipeline': 300,
             'crawler.pipelines.ImgDownloadPipeline': 300,

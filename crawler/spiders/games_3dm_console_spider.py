@@ -16,7 +16,7 @@ class Games3dmSpider(scrapy.Spider):
     }
 
     custom_settings = {
-        'MONGODB_COLLECTION': 'games_3dm_console',
+        'MONGODB_COLLECTION': 'entity',
         'ITEM_PIPELINES': {
             # 'crawler.pipelines.CrawlerPipeline': 300,
             'crawler.pipelines.ImgDownloadPipeline': 300,

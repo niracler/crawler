@@ -14,7 +14,7 @@ class GameSkySpider(scrapy.Spider):
         'Upgrade-Insecure-Requests': '1',
     }
     custom_settings = {
-        'MONGODB_COLLECTION': 'gamesky',
+        'MONGODB_COLLECTION': 'entity',
         'ITEM_PIPELINES': {
             #'crawler.pipelines.CrawlerPipeline': 300,
             'crawler.pipelines.ImgDownloadPipeline': 300,

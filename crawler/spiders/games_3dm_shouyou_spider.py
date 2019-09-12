@@ -14,7 +14,7 @@ class ThreedmconsolegameSpider(scrapy.Spider):
     }
     base_url = 'https://shouyou.3dmgame.com'
     custom_settings = {
-        'MONGODB_COLLECTION': 'games_3dm_shouyou',
+        'MONGODB_COLLECTION': 'entity',
         'ITEM_PIPELINES': {
             # 'crawler.pipelines.CrawlerPipeline': 300,
             'crawler.pipelines.ImgDownloadPipeline': 300,
