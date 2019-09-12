@@ -8,6 +8,12 @@
 import scrapy
 
 
+class NetLogItem(scrapy.Item):
+    url = scrapy.Field()  # url
+    urldata = scrapy.Field()  # url内容
+    update = scrapy.Field()  # 创建时间
+
+
 class CrawlerItem(scrapy.Item):
     # define the fields for your item here like:
     # name = scrapy.Field()

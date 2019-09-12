@@ -100,7 +100,7 @@ scrapy crawl shenshe
 ### 打包命令
 ```bash
 $ cd ..
-$ tar -czvf crawler.tar.gz  --exclude=crawler/venv --exclude=crawler/media crawler
+$ tar -czvf crawler.tar.gz  --exclude=crawler/venv --exclude=crawler/media --exclude=crawler/.git crawler
 ```
 
 ## 参考文章
