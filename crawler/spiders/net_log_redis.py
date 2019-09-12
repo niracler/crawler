@@ -15,5 +15,5 @@ class NetLogSpider(RedisCrawlSpider):
     def parse(self, response):
         net_log = NetLogItem()
         net_log['url'] = response.url
-        net_log['urldata'] = response.body
+        net_log['urldata'] = response.text
         yield net_log
