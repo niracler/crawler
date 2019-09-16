@@ -10,12 +10,13 @@ class NetLogSpider(RedisCrawlSpider):
     custom_settings = {
         'MONGODB_COLLECTION': 'net_log',
         'DOWNLOAD_DELAY': 0,
-        'DOWNLOAD_TIMEOUT': 5,
+        'DOWNLOAD_TIMEOUT': 3,
+        'CONCURRENT_REQUESTS': 32,
     }
 
     def parse(self, response):
         net_log = NetLogItem()
         net_log['url'] = response.url
-        net_log['urldata'] = " ".join(response.xpath('//text()').extract())
+        net_log['urldata'] = response.text
         net_log['update'] = str(datetime.now())
         yield net_log

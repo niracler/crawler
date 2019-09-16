@@ -122,3 +122,4 @@ $ tar -czvf crawler.tar.gz  --exclude=crawler/venv --exclude=crawler/media --exc
 - [item-pipeline](https://docs.scrapy.org/en/latest/topics/item-pipeline.html)
 - [使用 privoxy 转发 socks 到 http ](http://einverne.github.io/post/2018/03/privoxy-forward-socks-to-http.html)
 - [Make Scrapy work with socket proxy](https://blog.michaelyin.info/scrapy-socket-proxy/)
+- [Python向redis批量插入数据](https://my.oschina.net/tigerBin/blog/1842895)
