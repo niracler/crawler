@@ -8,3 +8,10 @@ for yy in range(2001, 2019):
         url = base_url.format(yy=yy, mm=mm)
         print(url)
         client.lpush("gnn_redis:start_urls", url)
+
+
+for yy in range(2019, 2020):
+    for mm in range(1, 9):
+        url = base_url.format(yy=yy, mm=mm)
+        print(url)
+        client.lpush("gnn_redis:start_urls", url)
