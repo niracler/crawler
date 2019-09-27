@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import re
+
 import scrapy
 from crawler.items import ArticleItem
 from scrapy_redis.spiders import RedisCrawlSpider, RedisSpider
@@ -6,11 +8,10 @@ from scrapy_redis.spiders import RedisCrawlSpider, RedisSpider
 
 class GnnSpider(RedisCrawlSpider):
     name = 'gnn_redis'
-    allowed_domains = ['gnn.gamer.com.tw']
     redis_key = 'gnn_redis:start_urls'
     item_index = 'url'
     custom_settings = {
-        'MONGODB_COLLECTION': 'gnn_game2',
+        'MONGODB_COLLECTION': 'gnn_game',
         'DOWNLOADER_MIDDLEWARES': {
             'crawler.middlewares.ProxyMiddleware': 1,
         }
@@ -25,19 +26,34 @@ class GnnSpider(RedisCrawlSpider):
                 item = ArticleItem()
                 item['website'] = 'https://gnn.gamer.com.tw'
                 item['title'] = article.xpath("h1/a/text()").extract_first()
-                item['url'] = url
                 yield scrapy.Request(url=url, callback=self.parse_item, meta={'item': item})
 
     def parse_item(self, response):
         item = response.meta.get('item')
-        if  not response.request.meta.get('redirect_urls'):
-            item['content'] = " ".join(response.xpath('string(//div[@class="GN-lbox3B"]/div)').extract())
-            item['category'] = " ".join(response.xpath('//ul[@class="platform-tag"]/li/a/text()').extract())
-            item['publish_time'] = response.xpath("//span[@class='GN-lbox3C']/text()").extract_first()
+        item['url'] = response.url
+        item['content'] = " ".join(response.xpath('string(//div[@class="GN-lbox3B"]/div)').extract())
+        item['category'] = " ".join(response.xpath('//ul[@class="platform-tag"]/li/a/text()').extract())
+
+        try:
+            item['publish_time'] = re.search(r"(\d{4}-\d{1,2}-\d{1,2}\s\d{1,2}:\d{1,2})", response.text).group(0)
+        except Exception as e:
+            item['publish_time'] = "1018-12-22 14:36:00"
+
+        # 假如是那种js重定向的页面
+        if item['content'] == '':
+            url = re.findall(r"replace\('(.*?)'\)", response.text)[0]
+            yield scrapy.Request(url=url, callback=self.parse_item2, meta={'item': item})
         else:
-            print('******************************************************************************')
-            print(response.url)
-            item['content'] = " ".join(response.xpath('//div[@class="MSG-list8C"]/div//text()').extract())
-            item['category'] = " "
-            item['publish_time'] = response.xpath('//div[@class="BH-lbox MSG-list8"]/span[2]/text()').extract_first()
+            yield item
+
+    def parse_item2(self, response):
+        item = response.meta.get('item')
+        item['url'] = response.url
+        item['content'] = " ".join(response.xpath('string(//div[@class="MSG-list8C"])').extract())
+        item['category'] = "无"
+        try:
+            item['publish_time'] = re.search(r"(\d{4}-\d{1,2}-\d{1,2}\s\d{1,2}:\d{1,2})", response.text).group(0)
+        except Exception as e:
+            item['publish_time'] = "1018-12-22 14:36:00"
+
         yield item

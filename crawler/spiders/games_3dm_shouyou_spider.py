@@ -16,11 +16,11 @@ class ThreedmconsolegameSpider(scrapy.Spider):
     custom_settings = {
         'MONGODB_COLLECTION': 'entity',
         'ITEM_PIPELINES': {
-            # 'crawler.pipelines.CrawlerPipeline': 300,
             'crawler.pipelines.ImgDownloadPipeline': 300,
-            # 'scrapy_redis.pipelines.RedisPipeline': 400,
             'crawler.pipelines.MongoPipeline': 400,
-        }
+        },
+        'DUPEFILTER_CLASS': 'scrapy.dupefilters.BaseDupeFilter',
+        'SCHEDULER': 'scrapy.core.scheduler.Scheduler'
     }
     item_index = 'name'
     def start_requests(self):

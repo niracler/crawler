@@ -5,8 +5,16 @@ from crawler.items import ShensheArticleItem
 
 class ShensheSpider(scrapy.Spider):
     name = 'shenshe'
-    allowed_domains = ['www.liuli.uk']
-    start_urls = ['https://www.liuli.uk/wp']
+    allowed_domains = ['www.liuli.be']
+    start_urls = ['https://www.liuli.be/wp']
+
+    custom_settings = {
+        'ITEM_PIPELINES': {
+            'crawler.pipelines.CrawlerPipeline': 300,
+        },
+        'DUPEFILTER_CLASS': 'scrapy.dupefilters.BaseDupeFilter',
+        'SCHEDULER': 'scrapy.core.scheduler.Scheduler'
+    }
 
     def parse(self, response):
         articles = response.css('#content article')

@@ -18,16 +18,13 @@ class Games3dmSpider(scrapy.Spider):
     custom_settings = {
         'MONGODB_COLLECTION': 'entity',
         'ITEM_PIPELINES': {
-            # 'crawler.pipelines.CrawlerPipeline': 300,
             'crawler.pipelines.ImgDownloadPipeline': 300,
-            # 'scrapy_redis.pipelines.RedisPipeline': 400,
             'crawler.pipelines.MongoPipeline': 400,
-        }
+        },
+        'DUPEFILTER_CLASS': 'scrapy.dupefilters.BaseDupeFilter',
+        'SCHEDULER': 'scrapy.core.scheduler.Scheduler'
     }
 
-    # custom_settings = {
-    #     'MONGODB_COLLECTION': 'games_3dm',
-    # }
     def start_requests(self):
         for url in self.start_urls:
             yield scrapy.Request(url, headers=self.headers, callback=self.parse)
