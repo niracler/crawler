@@ -14,10 +14,11 @@ BOT_NAME = 'crawler'
 SPIDER_MODULES = ['crawler.spiders']
 NEWSPIDER_MODULE = 'crawler.spiders'
 
-# 关于 scrapy_redis 的配置(假如不用redis，将下面4行注释)
-DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
-SCHEDULER = "scrapy_redis.scheduler.Scheduler"  # 调度器启用Redis存储Requests队列
-SCHEDULER_PERSIST = True  # 将Requests队列持久化到Redis，可支持暂停或重启爬虫
+# 默认不启用redis
+DUPEFILTER_CLASS = 'scrapy.dupefilters.BaseDupeFilter'
+SCHEDULER = 'scrapy.core.scheduler.Scheduler'
+SCHEDULER_PERSIST = True
+
 REDIS_URL = 'redis://root:123456@centos-l1-vm-01.niracler.com:6379'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent

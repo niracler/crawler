@@ -10,6 +10,9 @@ class Game17373Spider(RedisCrawlSpider):
 
     custom_settings = {
         'MONGODB_COLLECTION': '17373_game',
+        # 启用redis
+        'DUPEFILTER_CLASS': "scrapy_redis.dupefilter.RFPDupeFilter",
+        'SCHEDULER': "scrapy_redis.scheduler.Scheduler",
     }
 
     def parse(self, response):
