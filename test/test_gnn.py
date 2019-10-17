@@ -1,6 +1,6 @@
 import redis
 
-client = redis.Redis(host='centos-l1-vm-01.niracler.com', port='6379', password='123456')
+client = redis.Redis(host='plrom.niracler.com', port='6379', password='123456')
 base_url = 'https://gnn.gamer.com.tw/?yy={yy}&mm={mm}'
 
 for yy in range(2001, 2019):
