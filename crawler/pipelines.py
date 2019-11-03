@@ -65,7 +65,7 @@ class ImgDownloadPipeline(object):
         username = 'niracler'  # 用户名
         password = '159258'  # 密码
         local = '.' + img_path  # 本地文件或目录，与远程一致，当前为windows目录格式，window目录中间需要使用双斜线
-        remote = '/home/niracler/PycharmProjects/game-news' + img_path  # 远程文件或目录，与本地一致，当前为linux目录格式
+        remote = '/home/niracler/PycharmProjects/display-back-end' + img_path  # 远程文件或目录，与本地一致，当前为linux目录格式
         sftp_upload(host, port, username, password, local, remote)  # 上传
 
         return item
