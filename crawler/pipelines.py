@@ -60,7 +60,7 @@ class ImgDownloadPipeline(object):
         with open('.' + img_path, 'wb') as f:
             f.write(requests.get(url=img_url, headers=self.headers).content)
 
-        host = 'plrom.niracler.com'  # 主机
+        host = 'test.niracler.com'  # 主机
         port = 22  # 端口
         username = 'niracler'  # 用户名
         password = '159258'  # 密码

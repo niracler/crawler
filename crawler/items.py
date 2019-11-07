@@ -8,6 +8,19 @@
 import scrapy
 
 
+class MovieItem(scrapy.Item):
+    ranking = scrapy.Field()
+    mid = scrapy.Field()
+    name = scrapy.Field()
+    english_name = scrapy.Field()
+    release_year = scrapy.Field()
+    default_image = scrapy.Field()
+    box_office = scrapy.Field()
+    area = scrapy.Field()
+    area_id = scrapy.Field()
+
+
+
 class NetLogItem(scrapy.Item):
     url = scrapy.Field()  # url
     urldata = scrapy.Field()  # url内容

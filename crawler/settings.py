@@ -19,7 +19,7 @@ DUPEFILTER_CLASS = 'scrapy.dupefilters.BaseDupeFilter'
 SCHEDULER = 'scrapy.core.scheduler.Scheduler'
 SCHEDULER_PERSIST = True
 
-REDIS_URL = 'redis://root:123456@plrom.niracler.com:6379'
+REDIS_URL = 'redis://root:123456@test.niracler.com:6379'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = [
@@ -84,7 +84,7 @@ ITEM_PIPELINES = {
     # 'crawler.pipelines.MongoPipeline': 300,
 }
 
-MONGODB_SERVER = 'mongodb://root:123456@plrom.niracler.com:27017/spider?authSource=admin'
+MONGODB_SERVER = 'mongodb://root:123456@test.niracler.com:27017/spider?authSource=admin'
 MONGODB_DB = "spider"
 MONGODB_COLLECTION = "default"
 
