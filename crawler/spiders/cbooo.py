@@ -1,4 +1,6 @@
 # -*- coding: utf-8 -*-
+import re
+
 import scrapy
 import json
 from crawler.items import MovieItem
@@ -11,9 +13,10 @@ class CboooSpider(scrapy.Spider):
 
     custom_settings = {
         'ITEM_PIPELINES': {
-            'crawler.pipelines.MoviePipeline': 200,
+            # 'crawler.pipelines.MoviePipeline': 200,
             'crawler.pipelines.CrawlerPipeline': 300,
         },
+        'DOWNLOAD_DELAY': 5,
     }
 
     headers = {
@@ -74,11 +77,12 @@ class CboooSpider(scrapy.Spider):
             item['area'] = self.area_dict[area_id]
             item['area_id'] = area_id
 
-            yield item
+            # yield item
 
-            # detail_url = 'http://www.cbooo.cn/m/' + movie['ID']
+            detail_url = 'http://www.cbooo.cn/m/' + movie['ID']
 
-            # yield scrapy.Request(url=detail_url, callback=self.parse_movie_detail, headers=self.headers, meta={'item': item})
+            yield scrapy.Request(url=detail_url, callback=self.parse_movie_detail, headers=self.headers,
+                                 meta={'item': item})
 
         # 搞定下一页
         if page < movie_data['tPage']:
@@ -92,8 +96,31 @@ class CboooSpider(scrapy.Spider):
         :param response:
         :return:
         """
+
+        week = response.xpath("//td/span/text()").extract()
+        week_box_office = response.xpath("//td/span/../text()").extract()
+        week_box_office = [re.findall(r"201[0-9]年\s*[0-9]*月[0-9]*日-[0-9]*月[0-9]*日", i) for i in week_box_office]
+        week_box_office = [i[0] for i in week_box_office if i]
+        cont = response.xpath("//div[@class='cont']/p/text()").extract()
+        cont = [i.replace(' ', '').replace('\r', '').replace('\n', '') for i in cont]
+
         item = response.meta.get('item')
-        detail = response.xpath('//table[@class="datebg"]/tbody/tr//text()').extract()
+        item['week'] = week
+        item['week_box_office'] = week_box_office
+        item['director'] = response.xpath("//dl[@class='dltext']/dt[1]/following-sibling::dd[1]/p/a/@title").extract()
+        item['starring'] = response.xpath("//dl[@class='dltext']/dt[2]/following-sibling::dd[1]/p/a/@title").extract()
+        item['production_company'] = response.xpath(
+            "//dl[@class='dltext']/dt[3]/following-sibling::dd[1]/p/a/@title").extract()
+        item['publish_company'] = response.xpath(
+            "//dl[@class='dltext']/dt[4]/following-sibling::dd[1]/p/a/@title").extract()
+        item['average_per_game'] = response.xpath("//td[@class='arrow']/text()").extract()
+        item['one_week_box_office'] = response.xpath("//td[@class='arrow']/following-sibling::td[1]/text()").extract()
+        item['total_box_office'] = response.xpath("//td[@class='arrow']/following-sibling::td[2]/text()").extract()
+        item['days_released'] = response.xpath("//td[@class='last']/text()").extract()
+
+        item['movie_type'] = cont[3].split("：")[1]
+        item['duration'] = cont[4].split("：")[1]
+        item['release_time'] = cont[5].split("：")[1]
+        item['style'] = cont[6].split("：")[1]
 
         yield item
-

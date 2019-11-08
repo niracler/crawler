@@ -9,16 +9,29 @@ import scrapy
 
 
 class MovieItem(scrapy.Item):
-    ranking = scrapy.Field()
-    mid = scrapy.Field()
-    name = scrapy.Field()
-    english_name = scrapy.Field()
-    release_year = scrapy.Field()
-    default_image = scrapy.Field()
-    box_office = scrapy.Field()
-    area = scrapy.Field()
-    area_id = scrapy.Field()
-
+    ranking = scrapy.Field()  # 排名
+    mid = scrapy.Field()  # ID
+    name = scrapy.Field()  # 电影名
+    english_name = scrapy.Field()  # 英文名
+    release_year = scrapy.Field()  # 上映年限
+    default_image = scrapy.Field()  # 图片
+    box_office = scrapy.Field()  # 票房
+    area = scrapy.Field()  # 地区
+    area_id = scrapy.Field()  # 地区ID
+    week = scrapy.Field()  # 周数
+    week_box_office = scrapy.Field()  # 每周票房
+    director = scrapy.Field()  # 导演
+    starring = scrapy.Field()  # 明星
+    production_company = scrapy.Field()  # 制作公司
+    publish_company = scrapy.Field()  # 出版公司
+    average_per_game = scrapy.Field()  # 平均每场人次
+    one_week_box_office = scrapy.Field()  # 周票房
+    total_box_office = scrapy.Field()  # 总票房
+    days_released = scrapy.Field()  # 上映天数
+    movie_type = scrapy.Field()  # 电影类型
+    duration = scrapy.Field()  # 片长
+    release_time = scrapy.Field()  # 上映时间
+    style = scrapy.Field()  # 制式
 
 
 class NetLogItem(scrapy.Item):
