@@ -8,11 +8,61 @@
 import pymongo
 import requests
 
+from sqlalchemy.orm import sessionmaker
+from .models import Movie, db_connect, create_table
+
 from crawler.tool import sftp_upload
 
 
 class CrawlerPipeline(object):
     def process_item(self, item, spider):
+        return item
+
+
+class MoviePipeline(object):
+    def __init__(self):
+        """
+        Initializes database connection and sessionmaker.
+        Creates deals table.
+        """
+        engine = db_connect()
+        create_table(engine)
+        self.Session = sessionmaker(bind=engine)
+
+    def process_item(self, item, spider):
+        """
+        Save deals in the database.
+        This method is called for every item pipeline component.
+        """
+        session = self.Session()
+
+        movie = Movie()
+
+        movie.ranking = int(item['ranking'])
+        movie.mid = int(item['mid'])
+        movie.name = item['name']
+        movie.english_name = item['english_name']
+        movie.release_year = item['release_year']
+        movie.default_image = item['default_image']
+
+        try:
+            movie.box_office = int(item['box_office'])
+        except ValueError:
+            print('box_office: ' + item['box_office'])
+            movie.box_office = 0
+
+        movie.area = item['area']
+        movie.area_id = int(item['area_id'])
+
+        try:
+            session.add(movie)
+            session.commit()
+        except:
+            session.rollback()
+            raise
+        finally:
+            session.close()
+
         return item
 
 
@@ -69,5 +119,3 @@ class ImgDownloadPipeline(object):
         sftp_upload(host, port, username, password, local, remote)  # 上传
 
         return item
-
-

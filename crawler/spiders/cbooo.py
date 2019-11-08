@@ -9,6 +9,13 @@ class CboooSpider(scrapy.Spider):
     allowed_domains = ['www.cbooo.cn']
     start_urls = ['http://www.cbooo.cn/movies/']
 
+    custom_settings = {
+        'ITEM_PIPELINES': {
+            'crawler.pipelines.MoviePipeline': 200,
+            'crawler.pipelines.CrawlerPipeline': 300,
+        },
+    }
+
     headers = {
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3",
         "Accept-Encoding": "gzip, deflate",

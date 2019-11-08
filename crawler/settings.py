@@ -108,3 +108,12 @@ MONGODB_COLLECTION = "default"
 # HTTPCACHE_DIR = 'httpcache'
 # HTTPCACHE_IGNORE_HTTP_CODES = []
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+CONNECTION_STRING = "{drivername}://{user}:{passwd}@{host}:{port}/{db_name}?charset=utf8".format(
+    drivername="mysql",
+    user="root",
+    passwd="123456",
+    host="127.0.0.1",
+    port="3306",
+    db_name="movie_db",
+)
