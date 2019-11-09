@@ -113,7 +113,7 @@ CONNECTION_STRING = "{drivername}://{user}:{passwd}@{host}:{port}/{db_name}?char
     drivername="mysql",
     user="root",
     passwd="123456",
-    host="127.0.0.1",
-    port="3306",
+    host="demo.niracler.com",
+    port="3307",
     db_name="movie_db",
 )

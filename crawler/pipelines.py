@@ -49,7 +49,9 @@ class MoviePipeline(object):
         movie.duration = item['duration']
         movie.movie_type = item['movie_type']
         movie.director = item['director']
-        movie.starring = item['starring']
+
+        movie.starring = item['starring'] if len(item['starring']) < 512 else item['starring'][:512]
+
         movie.production_company = item['production_company']
         movie.publish_company = item['publish_company']
 
@@ -71,7 +73,11 @@ class MoviePipeline(object):
             movie_box_office.average_per_game = item['average_per_game'][i]
             movie_box_office.one_week_box_office = item['one_week_box_office'][i]
             movie_box_office.total_box_office = item['total_box_office'][i]
-            movie_box_office.days_released = item['days_released'][i]
+
+            try:
+                movie_box_office.days_released = item['days_released'][i]
+            except Exception as e:
+                movie_box_office.days_released = 0
 
             mbolist.append(movie_box_office)
 

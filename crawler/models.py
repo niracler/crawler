@@ -36,10 +36,10 @@ class Movie(DeclarativeBase):
     release_time = Column('release_time', String(128))
     duration = Column('duration', String(64))
     movie_type = Column('movie_type', String(64))
-    director = Column('director', String(256))
-    starring = Column('starring', String(256))
-    production_company = Column('production_company', String(256))
-    publish_company = Column('publish_company', String(256))
+    director = Column('director', String(512))
+    starring = Column('starring', String(512))
+    production_company = Column('production_company', String(512))
+    publish_company = Column('publish_company', String(512))
     created = Column('created', DateTime(), default=datetime.datetime.utcnow)
 
 

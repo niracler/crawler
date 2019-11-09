@@ -6,7 +6,7 @@ import scrapy
 class CboooDetailSpider(scrapy.Spider):
     name = 'cbooo_detail'
     allowed_domains = ['www.cbooo.cn']
-    start_urls = ['http://www.cbooo.cn/m/662685']
+    start_urls = ['http://www.cbooo.cn/m/674815']
 
     headers = {
         "Accept": "text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3",
