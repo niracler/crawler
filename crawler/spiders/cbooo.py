@@ -13,8 +13,8 @@ class CboooSpider(scrapy.Spider):
 
     custom_settings = {
         'ITEM_PIPELINES': {
-            # 'crawler.pipelines.MoviePipeline': 200,
-            'crawler.pipelines.CrawlerPipeline': 300,
+            'crawler.pipelines.MoviePipeline': 200,
+            # 'crawler.pipelines.CrawlerPipeline': 300,
         },
         'DOWNLOAD_DELAY': 5,
     }
@@ -98,21 +98,23 @@ class CboooSpider(scrapy.Spider):
         """
 
         week = response.xpath("//td/span/text()").extract()
-        week_box_office = response.xpath("//td/span/../text()").extract()
-        week_box_office = [re.findall(r"201[0-9]年\s*[0-9]*月[0-9]*日-[0-9]*月[0-9]*日", i) for i in week_box_office]
-        week_box_office = [i[0] for i in week_box_office if i]
+        week_time = response.xpath("//td/span/../text()").extract()
+        week_time = [re.findall(r"201[0-9]年\s*[0-9]*月[0-9]*日-[0-9]*月[0-9]*日", i) for i in week_time]
+        week_time = [i[0] for i in week_time if i]
         cont = response.xpath("//div[@class='cont']/p/text()").extract()
         cont = [i.replace(' ', '').replace('\r', '').replace('\n', '') for i in cont]
 
         item = response.meta.get('item')
         item['week'] = week
-        item['week_box_office'] = week_box_office
-        item['director'] = response.xpath("//dl[@class='dltext']/dt[1]/following-sibling::dd[1]/p/a/@title").extract()
-        item['starring'] = response.xpath("//dl[@class='dltext']/dt[2]/following-sibling::dd[1]/p/a/@title").extract()
-        item['production_company'] = response.xpath(
-            "//dl[@class='dltext']/dt[3]/following-sibling::dd[1]/p/a/@title").extract()
-        item['publish_company'] = response.xpath(
-            "//dl[@class='dltext']/dt[4]/following-sibling::dd[1]/p/a/@title").extract()
+        item['week_time'] = week_time
+
+        item['director'] = " ".join(response.xpath("//dl[@class='dltext']/dt[1]/following-sibling::dd[1]/p/a/@title").extract())
+        item['starring'] = " ".join(response.xpath("//dl[@class='dltext']/dt[2]/following-sibling::dd[1]/p/a/@title").extract())
+        item['production_company'] = " ".join(response.xpath(
+            "//dl[@class='dltext']/dt[3]/following-sibling::dd[1]/p/a/@title").extract())
+        item['publish_company'] = " ".join(response.xpath(
+            "//dl[@class='dltext']/dt[4]/following-sibling::dd[1]/p/a/@title").extract())
+
         item['average_per_game'] = response.xpath("//td[@class='arrow']/text()").extract()
         item['one_week_box_office'] = response.xpath("//td[@class='arrow']/following-sibling::td[1]/text()").extract()
         item['total_box_office'] = response.xpath("//td[@class='arrow']/following-sibling::td[2]/text()").extract()
