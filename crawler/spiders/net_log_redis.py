@@ -12,6 +12,9 @@ class NetLogSpider(RedisCrawlSpider):
         'DOWNLOAD_DELAY': 0,
         'DOWNLOAD_TIMEOUT': 3,
         'CONCURRENT_REQUESTS': 32,
+        # 启用redis
+        'DUPEFILTER_CLASS': "scrapy_redis.dupefilter.RFPDupeFilter",
+        'SCHEDULER': "scrapy_redis.scheduler.Scheduler",
     }
 
     def parse(self, response):

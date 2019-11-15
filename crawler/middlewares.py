@@ -10,7 +10,7 @@ from scrapy import signals
 
 class ProxyMiddleware(object):
     def process_request(self, request, spider):
-        request.meta['proxy'] = "http://plrom.niracler.com:8118"
+        request.meta['proxy'] = "http://test.niracler.com:8118"
 
 
 class CrawlerSpiderMiddleware(object):

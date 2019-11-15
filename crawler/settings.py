@@ -14,11 +14,12 @@ BOT_NAME = 'crawler'
 SPIDER_MODULES = ['crawler.spiders']
 NEWSPIDER_MODULE = 'crawler.spiders'
 
-# 关于 scrapy_redis 的配置(假如不用redis，将下面4行注释)
-DUPEFILTER_CLASS = "scrapy_redis.dupefilter.RFPDupeFilter"
-SCHEDULER = "scrapy_redis.scheduler.Scheduler"  # 调度器启用Redis存储Requests队列
-SCHEDULER_PERSIST = True  # 将Requests队列持久化到Redis，可支持暂停或重启爬虫
-REDIS_URL = 'redis://root:123456@centos-l1-vm-01.niracler.com:6379'
+# 默认不启用redis
+DUPEFILTER_CLASS = 'scrapy.dupefilters.BaseDupeFilter'
+SCHEDULER = 'scrapy.core.scheduler.Scheduler'
+SCHEDULER_PERSIST = True
+
+REDIS_URL = 'redis://root:123456@test.niracler.com:6379'
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 USER_AGENT = [
@@ -78,12 +79,12 @@ COOKIES_ENABLED = True
 # Configure item pipelines
 # See https://doc.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    # 'crawler.pipelines.CrawlerPipeline': 300,
+    'crawler.pipelines.CrawlerPipeline': 300,
     # 'scrapy_redis.pipelines.RedisPipeline': 400,
-    'crawler.pipelines.MongoPipeline': 300,
+    # 'crawler.pipelines.MongoPipeline': 300,
 }
 
-MONGODB_SERVER = 'mongodb://root:123456@centos-l5-vm-01.niracler.com:27017/spider?authSource=admin'
+MONGODB_SERVER = 'mongodb://root:123456@test.niracler.com:27017/spider?authSource=admin'
 MONGODB_DB = "spider"
 MONGODB_COLLECTION = "default"
 
@@ -107,3 +108,12 @@ MONGODB_COLLECTION = "default"
 # HTTPCACHE_DIR = 'httpcache'
 # HTTPCACHE_IGNORE_HTTP_CODES = []
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+CONNECTION_STRING = "{drivername}://{user}:{passwd}@{host}:{port}/{db_name}?charset=utf8".format(
+    drivername="mysql",
+    user="root",
+    passwd="123456",
+    host="demo.niracler.com",
+    port="3307",
+    db_name="movie_db",
+)

@@ -19,8 +19,6 @@ class ThreeDMOLGameSpider(scrapy.Spider):
             'crawler.pipelines.ImgDownloadPipeline': 300,
             'crawler.pipelines.MongoPipeline': 400,
         },
-        'DUPEFILTER_CLASS': 'scrapy.dupefilters.BaseDupeFilter',
-        'SCHEDULER': 'scrapy.core.scheduler.Scheduler'
     }
     def start_requests(self):
         for url in self.start_urls:

@@ -14,7 +14,10 @@ class GnnSpider(RedisCrawlSpider):
         'MONGODB_COLLECTION': 'gnn_game',
         'DOWNLOADER_MIDDLEWARES': {
             'crawler.middlewares.ProxyMiddleware': 1,
-        }
+        },
+        # 启用redis
+        'DUPEFILTER_CLASS': "scrapy_redis.dupefilter.RFPDupeFilter",
+        'SCHEDULER': "scrapy_redis.scheduler.Scheduler",
     }
 
     def parse(self, response):
