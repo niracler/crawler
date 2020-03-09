@@ -3,6 +3,7 @@ import scrapy
 from crawler.items import ThreeDMConsoleGame, ThreeDMOLGame, ThreeDMShouYouGame
 import requests
 from crawler.tool import random_filename
+import re
 
 
 class Games3dmSpider(scrapy.Spider):
@@ -16,10 +17,9 @@ class Games3dmSpider(scrapy.Spider):
     }
 
     custom_settings = {
-        'MONGODB_COLLECTION': 'entity',
         'ITEM_PIPELINES': {
             'crawler.pipelines.ImgDownloadPipeline': 300,
-            'crawler.pipelines.MongoPipeline': 400,
+            'crawler.pipelines.GamePipeline':300
         },
     }
 
@@ -46,6 +46,12 @@ class Games3dmSpider(scrapy.Spider):
                 [response.xpath('a[@class="bt"]/text()').extract_first().strip(),
                  response.xpath('a[@class="bt"]/span/text()').extract_first()])
             item['publish_time'] = response.xpath('ul[@class="info"]/li[1]/text()').extract_first().split('：')[-1]
+            mat = re.search(r"(\d{4}-\d{1,2}-\d{1,2})",item['publish_time'])
+            if mat:
+                item['publish_time'] = mat.group(0)
+            else :
+                item['publish_time'] = ""
+
             item['publisher'] = response.xpath('ul[@class="info"]/li[2]/text()').extract_first().split('：')[-1]
             item['developer'] = response.xpath('ul[@class="info"]/li[3]/text()').extract_first().split('：')[-1]
             item['platform'] = response.xpath('ul[@class="info"]/li[4]/text()').extract_first().split('：')[-1]
@@ -56,7 +62,7 @@ class Games3dmSpider(scrapy.Spider):
             img_url = response.xpath('a[@class="img"]/img/@src').extract_first()
             filename = random_filename(img_url)
             item['img_url'] = img_url
-            item['img_path'] = '/media/' + filename
+            item['img_path'] = '/images/' + filename
 
             return item
         except Exception as e:

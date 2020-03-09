@@ -3,6 +3,7 @@ import scrapy
 from crawler.items import ThreeDMOLGame
 import requests
 from crawler.tool import random_filename
+import re
 
 class ThreeDMOLGameSpider(scrapy.Spider):
     name = 'games_3dm_ol_spider'
@@ -14,10 +15,9 @@ class ThreeDMOLGameSpider(scrapy.Spider):
         'Upgrade-Insecure-Requests': '1',
     }
     custom_settings = {
-        'MONGODB_COLLECTION': 'entity',
         'ITEM_PIPELINES': {
             'crawler.pipelines.ImgDownloadPipeline': 300,
-            'crawler.pipelines.MongoPipeline': 400,
+            'crawler.pipelines.GamePipeline':300
         },
     }
     def start_requests(self):
@@ -41,6 +41,11 @@ class ThreeDMOLGameSpider(scrapy.Spider):
         try:
             item['name'] = response.xpath('div[2]/div[1]/div/a/text()').extract_first()
             item['publish_time'] = response.xpath('div[2]/div[3]/p[2]/i/text()').extract_first()
+            mat = re.search(r"(\d{4}-\d{1,2}-\d{1,2})",item['publish_time'])
+            if mat:
+                item['publish_time'] = mat.group(0)
+            else :
+                item['publish_time'] = ""
             item['popularity'] = response.xpath('div[2]/div[2]/p[1]/i/text()').extract_first()
             item['developer'] = response.xpath('div[2]/div[3]/p[1]/i/text()').extract_first()
             item['state'] = response.xpath('div[2]/div[1]/p[2]/i/text()').extract_first()
@@ -51,7 +56,7 @@ class ThreeDMOLGameSpider(scrapy.Spider):
             img_url = response.xpath('div[1]/a/img/@src').extract_first()
             filename = random_filename(img_url)
             item['img_url'] = img_url
-            item['img_path'] = '/media/' + filename
+            item['img_path'] = '/images/' + filename
             # with open('/home/zzh/图片/Threedmgame/'+filename, 'wb') as f:
             #     f.write(requests.get(url=img_url, headers=self.headers).content)
             return item

@@ -3,6 +3,7 @@ import scrapy
 from crawler.items import GameSky
 import requests
 from crawler.tool import random_filename
+import re
 
 class GameSkySpider(scrapy.Spider):
     name = 'gamesky'
@@ -14,10 +15,9 @@ class GameSkySpider(scrapy.Spider):
         'Upgrade-Insecure-Requests': '1',
     }
     custom_settings = {
-        'MONGODB_COLLECTION': 'entity',
         'ITEM_PIPELINES': {
             'crawler.pipelines.ImgDownloadPipeline': 300,
-            'crawler.pipelines.MongoPipeline': 400,
+            'crawler.pipelines.GamePipeline':300
         },
     }
     item_index = 'name'
@@ -52,14 +52,21 @@ class GameSkySpider(scrapy.Spider):
         # 将数据规范化
         category = response.xpath('//div[@class="nav"]/a[contains(@class, "cur")]/text()').extract_first()  # 获取大分类
         item['name'] = response.xpath('div[1]/div[2]/a/text()').extract_first()
+
         item['publish_time'] = response.xpath('div[1]/div[3]/text()').extract_first().split('：')[-1].strip()
+        mat = re.search(r"(\d{4}-\d{1,2}-\d{1,2})",item['publish_time'])
+        if mat:
+            item['publish_time'] = mat.group(0)
+        else :
+            item['publish_time'] = ""
+
         item['category'] = ' '.join([category, response.xpath('div[1]/div[4]/a/text()').extract_first()])
         item['publisher'] = response.xpath('div[1]/div[5]/text()').extract_first().split('：')[-1].strip()
         item['description'] = response.xpath('div[1]/div[6]/p/text()').extract_first().replace('\r\n', '').replace('\u3000', '').strip()
         img_url = response.xpath('div[1]/div[1]//img/@src').extract_first()
         filename = random_filename(img_url)
         item['img_url'] = img_url
-        item['img_path'] = '/media/' + filename
+        item['img_path'] = '/images/' + filename
         # with open('/home/zzh/图片/Threedmgame/'+filename, 'wb') as f:
         #     f.write(requests.get(url=img_url, headers=self.headers).content)
         return item

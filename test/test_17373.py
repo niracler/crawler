@@ -3,7 +3,7 @@ import re
 from lxml import etree
 import redis
 import time
-client = redis.Redis(host='centos-l1-vm-01.niracler.com', port='6379', password='123456')
+client = redis.Redis(host='127.0.0.1', port='6379', password='123456')
 base_url = 'http://search.17173.com/web/search.do?index-name=WEBPAGE&keyword=&page-no={' \
            '}&page-size=15&expression=newsChannel%3A10009+AND+(newsKind%3A{' \
            '})+AND+newsClass%3A1&highLights=newsTitle%2CnewsContent&sort-reverse=true&sort-type=STRING&sort-by' \
