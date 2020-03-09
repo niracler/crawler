@@ -3,6 +3,7 @@ import scrapy
 from crawler.items import ThreeDMShouYouGame
 import requests
 from crawler.tool import random_filename
+import re
 
 class ThreedmconsolegameSpider(scrapy.Spider):
     name = 'games_3dm_shouyou_spider'
@@ -14,10 +15,9 @@ class ThreedmconsolegameSpider(scrapy.Spider):
     }
     base_url = 'https://shouyou.3dmgame.com'
     custom_settings = {
-        'MONGODB_COLLECTION': 'entity',
         'ITEM_PIPELINES': {
             'crawler.pipelines.ImgDownloadPipeline': 300,
-            'crawler.pipelines.MongoPipeline': 400,
+            'crawler.pipelines.GamePipeline':300
         },
     }
     item_index = 'name'
@@ -59,12 +59,19 @@ class ThreedmconsolegameSpider(scrapy.Spider):
                 publisher = '未知'
             item['publisher'] = '手游 ' + publisher
             item['publish_time'] = response.xpath('div[2]/p[2]/span[3]/text()').extract_first().split('：')[-1]
+
+            mat = re.search(r"(\d{4}-\d{1,2}-\d{1,2})",item['publish_time'])
+            if mat:
+                item['publish_time'] = mat.group(0)
+            else :
+                item['publish_time'] = ""
+
             item['description'] = response.xpath('div[2]/p[3]/text()').extract_first().replace('\n', '').strip()
             item['score'] = response.xpath('div[2]/div/div[2]/text()').extract_first()
             img_url = self.base_url + response.xpath('div[1]/a/img/@src').extract_first()
             filename = random_filename(img_url)
             item['img_url'] = img_url
-            item['img_path'] = '/media/' + filename
+            item['img_path'] = '/images/' + filename
             return item
         except Exception as e:
             print(e)
